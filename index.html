@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Vehicle Safe LGU-Monitor | Official QR Profile & Fare Directory</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <!-- QR Code Scanning Library -->
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Universal Site Header -->
+    <header class="site-header">
+        <div class="header-container">
+
+            <!-- Desktop Navigation Tabs -->
+            <nav class="desktop-nav">
+                <button class="nav-link-btn active" data-target="screen-scanner">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.2">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    <span>Scanner</span>
+                </button>
+
+                <button class="nav-link-btn nav-tab-hidden" id="nav-profile-btn" data-target="screen-profile">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <span>Public Profile</span>
+                </button>
+
+                <button class="nav-link-btn" data-target="screen-calculator">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.2">
+                        <rect x="4" y="2" width="16" height="20" rx="2"></rect>
+                        <line x1="8" y1="6" x2="16" y2="6"></line>
+                        <line x1="16" y1="14" x2="16" y2="18"></line>
+                        <path d="M16 10h.01"></path>
+                        <path d="M12 10h.01"></path>
+                        <path d="M8 10h.01"></path>
+                        <path d="M12 14h.01"></path>
+                        <path d="M8 14h.01"></path>
+                        <path d="M12 18h.01"></path>
+                        <path d="M8 18h.01"></path>
+                    </svg>
+                    <span>Fare Calculator</span>
+                </button>
+            </nav>
+
+        </div>
+    </header>
+
+    <!-- Main Responsive Content Container -->
+    <main class="main-content">
+
+        <!-- Toast Notification -->
+        <div id="app-toast" class="toast-msg">
+            <span id="toast-icon">✅</span>
+            <span id="toast-text">Notification message</span>
+        </div>
+
+        <!-- ========================================================
+             SCREEN 1: Home / Scanner (Vehicle Safe Monitor)
+             ======================================================== -->
+        <section id="screen-scanner" class="screen-view active">
+            <div class="app-grid-2col">
+
+                <!-- Left Card: Live Scanner Viewport -->
+                <div class="web-card">
+                    <div class="web-card-title-row">
+                        <h2 class="web-card-title">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.2">
+                                <path
+                                    d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z">
+                                </path>
+                                <circle cx="12" cy="13" r="4"></circle>
+                            </svg>
+                            <span>Vehicle QR Scanner</span>
+                        </h2>
+                        <span class="badge-tag" id="scanner-status-tag">Ready</span>
+                    </div>
+
+                    <div class="scanner-viewport-wrap" id="scanner-wrap">
+                        <div id="reader"></div>
+                        <div class="scanner-overlay">
+                            <div class="scanner-reticle">
+                                <div class="laser-scan-line"></div>
+                            </div>
+                        </div>
+
+                        <!-- Floating controls -->
+                        <div class="scanner-controls-overlay">
+                            <button class="pill-icon-btn" id="btn-flip-camera" title="Switch Camera">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path
+                                        d="M20 10c0-4.418-3.582-8-8-8s-8 3.582-8 8m16 4c0 4.418-3.582 8-8 8s-8-3.582-8-8">
+                                    </path>
+                                    <polyline points="20 4 20 10 14 10"></polyline>
+                                    <polyline points="4 20 4 14 10 14"></polyline>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Primary Action: Camera Scan -->
+                    <div style="margin-bottom: 16px;">
+                        <button class="btn btn-blue" id="btn-start-camera">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.2">
+                                <path
+                                    d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z">
+                                </path>
+                                <circle cx="12" cy="13" r="4"></circle>
+                            </svg>
+                            <span id="camera-btn-text">Start Camera Scan</span>
+                        </button>
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="or-divider">
+                        <span>OR ENTER MANUALLY</span>
+                    </div>
+
+                    <!-- Manual Body Number Verification -->
+                    <div class="manual-lookup-box">
+                        <label class="form-label" for="input-body-number">Input Body Number</label>
+                        <div class="manual-input-group">
+                            <div class="input-with-icon">
+                                <svg class="field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2.2">
+                                    <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+                                    <path d="M9 9h6"></path>
+                                    <path d="M9 13h6"></path>
+                                    <path d="M9 17h4"></path>
+                                </svg>
+                                <input type="text" id="input-body-number" class="form-input"
+                                    placeholder="Enter 4-digit number (e.g. 0312)" maxlength="4" inputmode="numeric"
+                                    pattern="[0-9]*" autocomplete="off">
+                            </div>
+                            <button class="btn btn-outline" id="btn-lookup-body" type="button">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.2">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                                <span>Verify</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Card: Information & Quick Test Profiles -->
+                <div>
+                    <div class="web-card">
+                        <div class="web-card-title-row">
+                            <h3 class="web-card-title">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.2">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                                    <path d="M9 12l2 2 4-4" />
+                                </svg>
+                                <span>Vehicle Verification System</span>
+                            </h3>
+                        </div>
+
+                        <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px;">
+                            Align any LGU-issued vehicle sticker inside the scanner viewfinder. The system instantly
+                            cross-references the operator credentials, franchise validity, and registration database in
+                            real-time.
+                        </p>
+
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <div class="feature-icon-wrap">🛡️</div>
+                                <div>
+                                    <div class="feature-title">Tamper-Proof Digital Verification</div>
+                                    <div class="feature-desc">Validates active franchise status, driver permits, and
+                                        fleet assignments.</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <div class="feature-icon-wrap">🧮</div>
+                                <div>
+                                    <div class="feature-title">Meter & Fare Calibration</div>
+                                    <div class="feature-desc">Directly estimate your trip cost with official LGU
+                                        standard tariff computation.</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <div class="feature-icon-wrap">📱</div>
+                                <div>
+                                    <div class="feature-title">Universal Device Compatibility</div>
+                                    <div class="feature-desc">Works smoothly on desktop web browsers, Android phones,
+                                        and iOS Safari.</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ========================================================
+                 Featured Destinations Card Carousel Slider
+                 ======================================================== -->
+            <div class="destinations-carousel-section">
+                <div class="destinations-header">
+                    <h2 class="destinations-title">Featured Destinations</h2>
+                    <p class="destinations-subtitle">From sunrise waves to peaceful coves, your Mati adventure begins
+                        here.</p>
+                </div>
+
+                <div class="carousel-container-wrap">
+                    <!-- Navigation Prev Button -->
+                    <button class="carousel-nav-btn prev" id="carousel-prev-btn" aria-label="Previous Destination">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+
+                    <!-- Carousel Track -->
+                    <div class="destinations-carousel-track" id="destinations-track">
+
+                        <!-- Card 1: Dahican Beach -->
+                        <div class="destination-card" data-index="0" data-dest="Dahican Beach" data-km="12.5"
+                            data-min="25">
+                            <img src="assets/images/destinations/dahican.png" alt="Dahican Beach" class="card-bg-img"
+                                loading="lazy">
+                            <div class="card-gradient-overlay"></div>
+                            <div class="card-glare-overlay"></div>
+                            <div class="card-content">
+                                <h3 class="card-dest-title">Dahican Beach</h3>
+                                <p class="card-dest-desc">Seven kilometers of picture-perfect shoreline known for
+                                    sunrise swells and laid-back surf culture. Lounge, learn to surf, or simply chase
+                                    that golden hour glow.</p>
+                                <div class="card-tags-row">
+                                    <span class="dest-tag tag-green">Family-friendly</span>
+                                    <span class="dest-tag tag-blue">Beginner Surf</span>
+                                    <span class="dest-tag tag-amber">Sunrise Spot</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: Pujada Bay -->
+                        <div class="destination-card" data-index="1" data-dest="Pujada Bay" data-km="15.0"
+                            data-min="30">
+                            <img src="assets/images/destinations/Pujada.png" alt="Pujada Bay" class="card-bg-img"
+                                loading="lazy">
+                            <div class="card-gradient-overlay"></div>
+                            <div class="card-glare-overlay"></div>
+                            <div class="card-content">
+                                <h3 class="card-dest-title">Pujada Bay</h3>
+                                <p class="card-dest-desc">Just off the coast of Mati lies the breathtaking Pujada
+                                    Island, a tropical paradise known for its powdery white sand, crystal-clear waters,
+                                    and rich marine life.</p>
+                                <div class="card-tags-row">
+                                    <span class="dest-tag tag-green">Family-friendly</span>
+                                    <span class="dest-tag tag-blue">Beginner Surf</span>
+                                    <span class="dest-tag tag-amber">Sunrise Spot</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 3: Sleeping Dinosaur -->
+                        <div class="destination-card" data-index="2" data-dest="Sleeping Dinosaur" data-km="8.0"
+                            data-min="18">
+                            <img src="assets/images/destinations/sleepingdino.jpg" alt="Sleeping Dinosaur"
+                                class="card-bg-img" loading="lazy">
+                            <div class="card-gradient-overlay"></div>
+                            <div class="card-glare-overlay"></div>
+                            <div class="card-content">
+                                <h3 class="card-dest-title">Sleeping Dinosaur</h3>
+                                <p class="card-dest-desc">A favorite roadside stop with sweeping coastal vistas. The
+                                    dinosaur-shaped peninsula below creates a striking view.</p>
+                                <div class="card-tags-row">
+                                    <span class="dest-tag tag-green">Photo Spot</span>
+                                    <span class="dest-tag tag-blue">Roadside Stop</span>
+                                    <span class="dest-tag tag-amber">Viewpoint</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 4: City Baywalk & Boulevard -->
+                        <div class="destination-card" data-index="3" data-dest="City Baywalk & Boulevard" data-km="4.5"
+                            data-min="10">
+                            <img src="assets/images/destinations/baywalk.jpg" alt="City Baywalk & Boulevard"
+                                class="card-bg-img" loading="lazy">
+                            <div class="card-gradient-overlay"></div>
+                            <div class="card-glare-overlay"></div>
+                            <div class="card-content">
+                                <h3 class="card-dest-title">City Baywalk & Boulevard</h3>
+                                <p class="card-dest-desc">Evening jogs, street eats, and sea breeze conversations. A
+                                    relaxed, local way to enjoy the waterfront as lights come on across the bay.</p>
+                                <div class="card-tags-row">
+                                    <span class="dest-tag tag-green">Family-friendly</span>
+                                    <span class="dest-tag tag-blue">Leisure</span>
+                                    <span class="dest-tag tag-amber">Night Stroll</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 5: Subangan Heritage Museum -->
+                        <div class="destination-card" data-index="4" data-dest="Subangan Museum" data-km="6.0"
+                            data-min="12">
+                            <img src="assets/images/destinations/Subangan.jpg" alt="Subangan Heritage Museum"
+                                class="card-bg-img" loading="lazy">
+                            <div class="card-gradient-overlay"></div>
+                            <div class="card-glare-overlay"></div>
+                            <div class="card-content">
+                                <h3 class="card-dest-title">Subangan Heritage Museum</h3>
+                                <p class="card-dest-desc">A rich cultural treasury celebrating regional biodiversity,
+                                    indigenous Mandaya heritage, and interactive natural history exhibits.</p>
+                                <div class="card-tags-row">
+                                    <span class="dest-tag tag-green">Cultural Heritage</span>
+                                    <span class="dest-tag tag-blue">Educational</span>
+                                    <span class="dest-tag tag-amber">Must-Visit</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 6: Island Hopping -->
+                        <div class="destination-card" data-index="5" data-dest="Island Hopping" data-km="16.0"
+                            data-min="35">
+                            <img src="assets/images/destinations/waniban.jpg" alt="Island Hopping" class="card-bg-img"
+                                loading="lazy">
+                            <div class="card-gradient-overlay"></div>
+                            <div class="card-glare-overlay"></div>
+                            <div class="card-content">
+                                <h3 class="card-dest-title">Island Hopping</h3>
+                                <p class="card-dest-desc">Island hopping in Mati lets visitors explore crystal-clear
+                                    waters, hidden coves, and pristine islands across the breathtaking bays of Pujada,
+                                    Mayo, and Balete.</p>
+                                <div class="card-tags-row">
+                                    <span class="dest-tag tag-cyan">Island</span>
+                                    <span class="dest-tag tag-purple">Calm Waters</span>
+                                    <span class="dest-tag tag-pink">Beaches</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Navigation Next Button -->
+                    <button class="carousel-nav-btn next" id="carousel-next-btn" aria-label="Next Destination">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Pagination Dots Indicator -->
+                <div class="carousel-pagination-dots" id="carousel-dots">
+                    <button class="carousel-dot active" data-index="0" aria-label="Go to slide 1"></button>
+                    <button class="carousel-dot" data-index="1" aria-label="Go to slide 2"></button>
+                    <button class="carousel-dot" data-index="2" aria-label="Go to slide 3"></button>
+                    <button class="carousel-dot" data-index="3" aria-label="Go to slide 4"></button>
+                    <button class="carousel-dot" data-index="4" aria-label="Go to slide 5"></button>
+                    <button class="carousel-dot" data-index="5" aria-label="Go to slide 6"></button>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ========================================================
+             SCREEN 2: Public Profile View (Vehicle Safe)
+             ======================================================== -->
+        <section id="screen-profile" class="screen-view">
+
+            <!-- Verification Banner -->
+            <div class="status-banner">
+                <div class="status-badge-icon">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                        <path d="M9 12l2 2 4-4" />
+                    </svg>
+                </div>
+                <div>
+                    <div class="status-title">Authorized Operator — Active Credentials Verified</div>
+                    <div class="status-desc">This vehicle and driver are officially registered and compliant with LGU
+                        public transport standards.</div>
+                </div>
+            </div>
+
+            <div class="app-grid-2col">
+
+                <!-- Left Column: Operator Identity & Contact -->
+                <div>
+                    <div class="web-card">
+                        <div class="web-card-title-row">
+                            <h3 class="web-card-title">Operator Profile</h3>
+                        </div>
+
+                        <div class="operator-hero-card">
+                            <!-- Holographic Security Guilloche Watermark with Official Seal -->
+                            <div class="holo-security-seal" aria-hidden="true">
+                                <div class="holo-guilloche-ring"></div>
+                                <img src="assets/images/logo/mati-logo.png" alt="LGU Official Seal Watermark"
+                                    class="holo-seal-img">
+                            </div>
+
+                            <img src="assets/images/profiles/operator-avatar.jpg" alt="Operator Photo"
+                                class="operator-avatar" id="prof-avatar">
+                            <div class="operator-info">
+                                <h2 class="operator-name" id="prof-name">Juan Dela Cruz</h2>
+                                <p class="operator-role" id="prof-role">Pedicab Operator</p>
+                                <span class="operator-dept-pill" id="prof-dept">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                                        <path
+                                            d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                                        </path>
+                                    </svg>
+                                    <span id="prof-dept-text">City of Mati Davao Oriental</span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Contact Details -->
+                        <h4
+                            style="font-size: 0.85rem; font-weight: 700; color: var(--primary-navy); margin-bottom: 12px; text-transform: uppercase;">
+                            Contact & Credentials
+                        </h4>
+
+                        <a href="https://maps.google.com/?q=Brgy.+Central,+City+of+Mati+Davao+Oriental"
+                            class="contact-item" id="prof-address-link" target="_blank">
+                            <div class="contact-icon" style="background: #EEF2FF; color: #4F46E5;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                </svg>
+                            </div>
+                            <div class="contact-details">
+                                <div class="contact-type">Address</div>
+                                <div class="contact-val" id="prof-address">Brgy. Central, City of Mati Davao Oriental.
+                                </div>
+                            </div>
+                        </a>
+
+                        <a href="tel:09093592607" class="contact-item" id="prof-contact-link">
+                            <div class="contact-icon" style="background: #E0F2FE; color: #0284C7;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path
+                                        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div class="contact-details">
+                                <div class="contact-type">Contact Number</div>
+                                <div class="contact-val" id="prof-contact">0909-359-2607</div>
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
+
+                <!-- Right Column: Vehicle Info & Bio -->
+                <div>
+                    <div class="web-card">
+                        <div class="web-card-title-row">
+                            <h3 class="web-card-title">Vehicle Registration Info</h3>
+                        </div>
+
+                        <div class="grid-two-cols" style="margin-bottom: 14px;">
+                            <div class="meta-field">
+                                <div class="meta-label">Body Number</div>
+                                <div class="meta-value" id="prof-plate">0312</div>
+                            </div>
+                            <div class="meta-field">
+                                <div class="meta-label">Case No.</div>
+                                <div class="meta-value" id="prof-permit">CFO-25-7764</div>
+                            </div>
+                        </div>
+
+                        <div class="meta-field" style="margin-bottom: 12px;">
+                            <div class="meta-label">Route</div>
+                            <div class="meta-value" style="font-size: 0.95rem;" id="prof-route">City Proper Route</div>
+                        </div>
+
+                        <div class="meta-field" style="margin-bottom: 20px;">
+                            <div class="meta-label">Vehicle Model & Description</div>
+                            <div class="meta-value" style="font-size: 0.95rem;" id="prof-model">Pedicab model with Red
+                                and Black Design</div>
+                        </div>
+
+                        <h4
+                            style="font-size: 0.85rem; font-weight: 700; color: var(--primary-navy); margin-bottom: 8px; text-transform: uppercase;">
+                            Professional Biography
+                        </h4>
+                        <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 24px;"
+                            id="prof-bio">
+                            Registered and licensed public transport operator certified by the City Government of Mati,
+                            Davao Oriental. Compliant with local transit tariff standards.
+                        </p>
+
+                        <!-- Action Buttons -->
+                        <div class="btn-group-row">
+                            <button class="btn btn-blue" id="btn-scan-another">
+                                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.3">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                                <span>Scan Another Vehicle</span>
+                            </button>
+                            <button class="btn btn-outline" id="btn-enter-body">
+                                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.3">
+                                    <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+                                    <path d="M9 9h6"></path>
+                                    <path d="M9 13h6"></path>
+                                    <path d="M9 17h4"></path>
+                                </svg>
+                                <span>Enter Body Number</span>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ========================================================
+             SCREEN 3: Fare Calculator View
+             ======================================================== -->
+        <section id="screen-calculator" class="screen-view">
+            <div class="app-grid-2col">
+
+                <!-- Left Column: Input Form -->
+                <div class="web-card">
+                    <div class="web-card-title-row">
+                        <h2 class="web-card-title">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.2">
+                                <rect x="4" y="2" width="16" height="20" rx="2"></rect>
+                                <line x1="8" y1="6" x2="16" y2="6"></line>
+                                <line x1="16" y1="14" x2="16" y2="18"></line>
+                                <path d="M16 10h.01"></path>
+                                <path d="M12 10h.01"></path>
+                                <path d="M8 10h.01"></path>
+                                <path d="M12 14h.01"></path>
+                                <path d="M8 14h.01"></path>
+                                <path d="M12 18h.01"></path>
+                                <path d="M8 18h.01"></path>
+                            </svg>
+                            <span>Fare Calculator</span>
+                        </h2>
+                        <span class="badge-tag">LTFRB / LGU Tariff</span>
+                    </div>
+
+                    <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 20px;">
+                        Estimate standard fares dynamically based on distance, travel duration, and toll
+                        surcharges.
+                    </p>
+
+                    <div class="grid-two-cols">
+                        <div class="form-group">
+                            <label class="form-label" for="calc-base">Base Fare (₱)</label>
+                            <input type="number" step="0.5" class="form-input" id="calc-base" value="45.00">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="calc-surcharge">Surcharge / Toll (₱)</label>
+                            <input type="number" step="0.5" class="form-input" id="calc-surcharge" value="0.00">
+                        </div>
+                    </div>
+
+                    <div class="grid-two-cols">
+                        <div class="form-group">
+                            <label class="form-label" for="calc-distance">Distance (km)</label>
+                            <input type="number" step="0.1" class="form-input" id="calc-distance"
+                                placeholder="e.g. 7.5">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="calc-time">Travel Time (minutes)</label>
+                            <input type="number" step="1" class="form-input" id="calc-time" placeholder="e.g. 20">
+                        </div>
+                    </div>
+
+                    <!-- Preset Distance Buttons -->
+                    <div style="margin-bottom: 20px;">
+                        <label class="form-label">Quick Distance Presets</label>
+                        <div class="quick-test-badges">
+                            <button type="button" class="test-chip calc-preset" data-km="3.0" data-min="10">Short Trip
+                                (3 km)</button>
+                            <button type="button" class="test-chip calc-preset" data-km="8.5" data-min="25">City Commute
+                                (8.5 km)</button>
+                            <button type="button" class="test-chip calc-preset" data-km="18.0" data-min="45">Airport
+                                Route (18 km)</button>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-blue" id="btn-calculate">
+                        <span>Recalculate Total Fare</span>
+                    </button>
+                </div>
+
+                <!-- Right Column: Result Output & Breakdown -->
+                <div>
+                    <div class="web-card">
+                        <div class="web-card-title-row">
+                            <h3 class="web-card-title">Estimated Trip Total</h3>
+                            <span class="badge-tag" style="background:#E6FBF5; color:#065F46;">Live Computation</span>
+                        </div>
+
+                        <div class="calc-total-card">
+                            <div class="calc-total-label">Estimated Fare Total</div>
+                            <div class="calc-total-amount" id="calc-total-val">₱ 45.00</div>
+                            <div class="fare-breakdown-details" id="calc-breakdown">
+                                Base (₱45.00) + Distance (₱0.00) + Time (₱0.00) + Surcharges (₱0.00)
+                            </div>
+                        </div>
+
+                        <h4
+                            style="font-size: 0.85rem; font-weight: 700; color: var(--primary-navy); margin-bottom: 10px; text-transform: uppercase;">
+                            Standard Tariff Policy
+                        </h4>
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <div class="feature-icon-wrap">🏷️</div>
+                                <div>
+                                    <div class="feature-title">Flagdown Base Rate: ₱45.00</div>
+                                    <div class="feature-desc">Covers the initial meter flagdown upon passenger boarding.
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <div class="feature-icon-wrap">📍</div>
+                                <div>
+                                    <div class="feature-title">Distance Rate: ₱13.50 per km</div>
+                                    <div class="feature-desc">Calculated continuously based on GPS meter transit
+                                        distance.</div>
+                                </div>
+                            </li>
+                            <li class="feature-item">
+                                <div class="feature-icon-wrap">⏱️</div>
+                                <div>
+                                    <div class="feature-title">Running Time Rate: ₱2.00 per minute</div>
+                                    <div class="feature-desc">Standard traffic waiting and transit duration increment.
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Official City of Mati Site Footer -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+
+                <!-- Column 1: Brand & Official Motto -->
+                <div class="footer-col footer-col-brand">
+                    <div class="footer-brand-lockup">
+                        <img src="assets/images/logo/mati-logo.png" alt="City of Mati Official Seal"
+                            class="footer-seal-img" width="64" height="64">
+                        <img src="assets/images/logo/feelmatilogo.png" alt="Feel MATI Logo" class="feel-mati-logo"
+                            height="48">
+                    </div>
+                    <p class="footer-motto">Feel MATI: More Adventures, Truly Incredible</p>
+                </div>
+
+                <!-- Column 2: Quick Links -->
+                <div class="footer-col">
+                    <h4 class="footer-heading">Quick Links</h4>
+                    <ul class="footer-links-list">
+                        <li><a href="#" class="footer-link">Explore Mati</a></li>
+                        <li><a href="#" class="footer-link">Services</a></li>
+                        <li><a href="#" class="footer-link">Transparency</a></li>
+                        <li><a href="#" class="footer-link">Careers</a></li>
+                        <li><a href="#" class="footer-link">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Contact -->
+                <div class="footer-col">
+                    <h4 class="footer-heading">Contact</h4>
+                    <ul class="footer-contact-list">
+                        <li class="footer-contact-item">
+                            <svg class="footer-contact-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                            <span>Nazareno St. City of Mati</span>
+                        </li>
+                        <li class="footer-contact-item">
+                            <svg class="footer-contact-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                                </path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                            <a href="mailto:cio.cityofmati@gmail.com" class="footer-link">cio.cityofmati@gmail.com</a>
+                        </li>
+                        <li class="footer-contact-item">
+                            <svg class="footer-contact-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                                </path>
+                            </svg>
+                            <a href="tel:09985987122" class="footer-link">Mati PNP: 0998 5987122</a>
+                        </li>
+                        <li class="footer-contact-item">
+                            <svg class="footer-contact-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                                </path>
+                            </svg>
+                            <a href="tel:911" class="footer-link">Hotline: 911</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Policies -->
+                <div class="footer-col">
+                    <h4 class="footer-heading">Policies</h4>
+                    <ul class="footer-links-list">
+                        <li><a href="#" class="footer-link">Data Privacy</a></li>
+                        <li><a href="#" class="footer-link">Terms and Conditions</a></li>
+                        <li><a href="#" class="footer-link">Accessibility</a></li>
+                        <li><a href="#" class="footer-link">Sitemap</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Bottom Copyright Bar -->
+            <div class="footer-bottom-bar">
+                <p class="footer-copyright">© 2026. City Government of Mati City. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Bottom Navigation Bar (Visible only on phone screens) -->
+    <nav class="bottom-nav">
+        <button class="nav-item active" data-target="screen-scanner">
+            <div class="nav-item-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+            </div>
+            <span class="nav-item-label">Scanner</span>
+        </button>
+
+        <button class="nav-item nav-tab-hidden" id="bottom-nav-profile-btn" data-target="screen-profile">
+            <div class="nav-item-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+            </div>
+            <span class="nav-item-label">Profile</span>
+        </button>
+
+        <button class="nav-item" data-target="screen-calculator">
+            <div class="nav-item-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <rect x="4" y="2" width="16" height="20" rx="2"></rect>
+                    <line x1="8" y1="6" x2="16" y2="6"></line>
+                    <line x1="16" y1="14" x2="16" y2="18"></line>
+                    <path d="M16 10h.01"></path>
+                    <path d="M12 10h.01"></path>
+                    <path d="M8 10h.01"></path>
+                    <path d="M12 14h.01"></path>
+                    <path d="M8 14h.01"></path>
+                    <path d="M12 18h.01"></path>
+                    <path d="M8 18h.01"></path>
+                </svg>
+            </div>
+            <span class="nav-item-label">Calculator</span>
+        </button>
+    </nav>
+
+    <!-- Application Javascript Logic -->
+    <script>
+        /* ==========================================================================
+           Vehicle Safe LGU-Monitor - Cross-Platform Web Application Logic
+           ========================================================================== */
+
+        // Default Seed Profiles
+        const DEFAULT_PROFILES = {
+            "ABC-1234": {
+                name: "Juan Dela Cruz",
+                role: "Pedicab Operator",
+                dept: "City of Mati Davao Oriental",
+                plate: "0312",
+                permit: "CFO-25-7764",
+                model: "Pedicab model with Red and Black Design",
+                route: "City Proper Route",
+                address: "Brgy. Central, City of Mati Davao Oriental.",
+                contact: "0909-359-2607",
+                avatar: "assets/images/profiles/operator-avatar.jpg",
+                bio: "Registered and licensed public transport operator certified by the City Government of Mati, Davao Oriental. Compliant with local transit tariff standards."
+            }
+        };
+        DEFAULT_PROFILES["0312"] = DEFAULT_PROFILES["ABC-1234"];
+
+        // Global State
+        let currentScreen = 'screen-scanner';
+        let isCameraRunning = false;
+        let currentFacingMode = 'environment';
+
+        // Toast feedback
+        function showToast(text, icon = '✅') {
+            const toast = document.getElementById('app-toast');
+            document.getElementById('toast-text').textContent = text;
+            document.getElementById('toast-icon').textContent = icon;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3200);
+        }
+
+        // Screen Navigation Function
+        function navigateToScreen(screenId) {
+            if (currentScreen === 'screen-scanner' && screenId !== 'screen-scanner') {
+                stopCamera();
+            }
+
+            document.querySelectorAll('.screen-view').forEach(view => {
+                view.classList.remove('active');
+            });
+
+            const targetView = document.getElementById(screenId);
+            if (targetView) {
+                targetView.classList.add('active');
+                currentScreen = screenId;
+            }
+
+            // Sync Desktop Nav
+            document.querySelectorAll('.nav-link-btn').forEach(btn => {
+                if (btn.dataset.target === screenId) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // Sync Mobile Bottom Nav
+            document.querySelectorAll('.nav-item').forEach(nav => {
+                if (nav.dataset.target === screenId) {
+                    nav.classList.add('active');
+                } else {
+                    nav.classList.remove('active');
+                }
+            });
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Setup Desktop and Mobile Navigation Handlers
+        document.querySelectorAll('.nav-link-btn, .nav-item').forEach(btn => {
+            btn.addEventListener('click', () => {
+                navigateToScreen(btn.dataset.target);
+            });
+        });
+
+        /* ==========================================================================
+           QR Scanner Implementation
+           ========================================================================== */
+        const html5QrCode = new Html5Qrcode("reader");
+
+        async function startCamera() {
+            if (isCameraRunning) {
+                stopCamera();
+                return;
+            }
+
+            const qrWrap = document.getElementById('scanner-wrap');
+            const cameraBtn = document.getElementById('btn-start-camera');
+            const btnText = document.getElementById('camera-btn-text');
+            const statusTag = document.getElementById('scanner-status-tag');
+
+            try {
+                const config = {
+                    fps: 15,
+                    qrbox: function (width, height) {
+                        const min = Math.min(width, height);
+                        return { width: Math.floor(min * 0.75), height: Math.floor(min * 0.75) };
+                    }
+                };
+
+                await html5QrCode.start(
+                    { facingMode: currentFacingMode },
+                    config,
+                    onScanSuccess,
+                    onScanFailure
+                );
+
+                isCameraRunning = true;
+                qrWrap.classList.add('scanner-active');
+                btnText.textContent = 'Stop Camera Scan';
+                cameraBtn.classList.remove('btn-blue');
+                cameraBtn.classList.add('btn-yellow');
+                statusTag.textContent = 'Scanning...';
+                statusTag.style.background = '#FEF9C3';
+                statusTag.style.color = '#854D0E';
+                showToast('Camera active. Align QR in frame.', '📷');
+            } catch (err) {
+                console.error("Camera start failed: ", err);
+                isCameraRunning = false;
+                qrWrap.classList.remove('scanner-active');
+                btnText.textContent = 'Start Camera Scan';
+                cameraBtn.classList.add('btn-blue');
+                cameraBtn.classList.remove('btn-yellow');
+                statusTag.textContent = 'Camera Error';
+                showToast('Camera error: ' + (err.message || 'Check camera permissions'), '⚠️');
+            }
+        }
+
+        async function stopCamera() {
+            if (!isCameraRunning) return;
+            try {
+                await html5QrCode.stop();
+            } catch (e) {
+                console.warn(e);
+            }
+            isCameraRunning = false;
+            document.getElementById('scanner-wrap').classList.remove('scanner-active');
+            document.getElementById('camera-btn-text').textContent = 'Start Camera Scan';
+            const cameraBtn = document.getElementById('btn-start-camera');
+            cameraBtn.classList.add('btn-blue');
+            cameraBtn.classList.remove('btn-yellow');
+            document.getElementById('scanner-status-tag').textContent = 'Ready';
+        }
+
+        function onScanFailure(error) {
+            // silent frame iteration
+        }
+
+        function onScanSuccess(decodedText, decodedResult) {
+            if (navigator.vibrate) navigator.vibrate(80);
+            stopCamera();
+            handleScannedData(decodedText);
+        }
+
+        // Camera Flip Handler
+        document.getElementById('btn-flip-camera').addEventListener('click', async (e) => {
+            e.stopPropagation();
+            currentFacingMode = currentFacingMode === 'environment' ? 'user' : 'environment';
+            if (isCameraRunning) {
+                await stopCamera();
+                await startCamera();
+            }
+            showToast(`Switched to ${currentFacingMode === 'environment' ? 'Rear' : 'Front'} Camera`, '🔄');
+        });
+
+        document.getElementById('btn-start-camera').addEventListener('click', startCamera);
+
+        // Manual Body Number Lookup Handler
+        function lookupBodyNumber(rawInput) {
+            const bodyNo = (rawInput || '').trim();
+            if (!bodyNo) {
+                showToast('Please enter a 4-digit Body Number', '⚠️');
+                return;
+            }
+
+            const profiles = DEFAULT_PROFILES;
+            let matchedProfile = null;
+
+            // Match by plate property or profile key
+            for (const key in profiles) {
+                const p = profiles[key];
+                if (p && (p.plate === bodyNo || key === bodyNo || key.toUpperCase() === bodyNo.toUpperCase())) {
+                    matchedProfile = p;
+                    break;
+                }
+            }
+
+            if (!matchedProfile) {
+                showToast(`Unregistered Vehicle: Body No. "${bodyNo}" not found`, '⚠️');
+                return;
+            }
+
+            revealProfileTab();
+            renderProfile(matchedProfile);
+            navigateToScreen('screen-profile');
+            showToast('Authorized Operator Verified!', '🛡️');
+        }
+
+        const bodyInput = document.getElementById('input-body-number');
+        const lookupBtn = document.getElementById('btn-lookup-body');
+
+        if (lookupBtn && bodyInput) {
+            lookupBtn.addEventListener('click', () => {
+                lookupBodyNumber(bodyInput.value);
+            });
+
+            bodyInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    lookupBodyNumber(bodyInput.value);
+                }
+            });
+        }
+
+        // Reveal Public Profile Tab when an Authorized Operator is verified
+        function revealProfileTab() {
+            const desktopBtn = document.getElementById('nav-profile-btn');
+            const bottomBtn = document.getElementById('bottom-nav-profile-btn');
+
+            if (desktopBtn && desktopBtn.classList.contains('nav-tab-hidden')) {
+                desktopBtn.classList.remove('nav-tab-hidden');
+                desktopBtn.classList.add('nav-tab-unlocked');
+            }
+            if (bottomBtn && bottomBtn.classList.contains('nav-tab-hidden')) {
+                bottomBtn.classList.remove('nav-tab-hidden');
+                bottomBtn.classList.add('nav-tab-unlocked');
+            }
+        }
+
+        /* ==========================================================================
+           Profile Renderer & Data Parser
+           ========================================================================== */
+        function handleScannedData(dataString) {
+            const profiles = DEFAULT_PROFILES;
+            let matchedProfile = null;
+
+            try {
+                const parsed = JSON.parse(dataString);
+                if (parsed.plate && profiles[parsed.plate]) {
+                    matchedProfile = profiles[parsed.plate];
+                } else if (parsed.name && parsed.plate) {
+                    matchedProfile = parsed;
+                }
+            } catch (e) { }
+
+            if (!matchedProfile) {
+                const cleanKey = dataString.trim().toUpperCase();
+                for (const key in profiles) {
+                    if (key.toUpperCase() === cleanKey || cleanKey.includes(key.toUpperCase())) {
+                        matchedProfile = profiles[key];
+                        break;
+                    }
+                }
+            }
+
+            if (!matchedProfile) {
+                const statusTag = document.getElementById('scanner-status-tag');
+                if (statusTag) {
+                    statusTag.textContent = 'Invalid QR';
+                    statusTag.style.background = '#FEE2E2';
+                    statusTag.style.color = '#991B1B';
+                }
+                showToast('Invalid QR: Unregistered Operator', '⚠️');
+                return;
+            }
+
+            revealProfileTab();
+            renderProfile(matchedProfile);
+            navigateToScreen('screen-profile');
+            showToast('Authorized Operator Verified!', '🛡️');
+        }
+
+        function renderProfile(p) {
+            document.getElementById('prof-avatar').src = p.avatar || 'assets/images/profiles/operator-avatar.jpg';
+            document.getElementById('prof-name').textContent = p.name;
+            document.getElementById('prof-role').textContent = p.role;
+            document.getElementById('prof-dept-text').textContent = p.dept || 'LGU Transport';
+            document.getElementById('prof-bio').textContent = p.bio || 'Authorized operator registered with LGU Vehicle Safe program.';
+            document.getElementById('prof-plate').textContent = p.plate;
+            document.getElementById('prof-permit').textContent = p.permit;
+            document.getElementById('prof-model').textContent = p.model || 'Pedicab model with Red and Black Design';
+            if (document.getElementById('prof-route')) {
+                document.getElementById('prof-route').textContent = p.route || 'City Proper Route';
+            }
+
+            const addressText = p.address || 'Brgy. Central, City of Mati Davao Oriental.';
+            const addressEl = document.getElementById('prof-address');
+            if (addressEl) addressEl.textContent = addressText;
+            const addressLink = document.getElementById('prof-address-link');
+            if (addressLink) {
+                addressLink.href = `https://maps.google.com/?q=${encodeURIComponent(addressText)}`;
+            }
+
+            const phoneText = p.contact || '0909-359-2607';
+            const contactEl = document.getElementById('prof-contact');
+            if (contactEl) contactEl.textContent = phoneText;
+            const contactLink = document.getElementById('prof-contact-link');
+            if (contactLink) {
+                const digits = phoneText.replace(/[^0-9+]/g, '');
+                contactLink.href = digits ? `tel:${digits}` : '#';
+            }
+        }
+
+        // Profile Action Buttons
+        document.getElementById('btn-scan-another').addEventListener('click', () => {
+            navigateToScreen('screen-scanner');
+            startCamera();
+        });
+
+        const enterBodyBtn = document.getElementById('btn-enter-body');
+        if (enterBodyBtn) {
+            enterBodyBtn.addEventListener('click', () => {
+                navigateToScreen('screen-scanner');
+                const bodyInput = document.getElementById('input-body-number');
+                if (bodyInput) {
+                    setTimeout(() => {
+                        bodyInput.focus();
+                        bodyInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 150);
+                }
+            });
+        }
+
+        /* ==========================================================================
+           Fare Calculator with Live Rolling Counter & Interpolation
+           ========================================================================== */
+        let currentFareDisplay = 45.00;
+        let fareAnimationId = null;
+
+        function animateFareCounter(startVal, endVal, duration = 380) {
+            const valElement = document.getElementById('calc-total-val');
+            if (!valElement) return;
+
+            if (fareAnimationId) cancelAnimationFrame(fareAnimationId);
+
+            const startTime = performance.now();
+            valElement.classList.add('fare-highlight-pulse');
+            setTimeout(() => valElement.classList.remove('fare-highlight-pulse'), 400);
+
+            function updateCounter(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                // Ease out quad
+                const easeProgress = 1 - (1 - progress) * (1 - progress);
+                const currentVal = startVal + (endVal - startVal) * easeProgress;
+
+                valElement.textContent = `₱ ${currentVal.toFixed(2)}`;
+
+                if (progress < 1) {
+                    fareAnimationId = requestAnimationFrame(updateCounter);
+                } else {
+                    currentFareDisplay = endVal;
+                    valElement.textContent = `₱ ${endVal.toFixed(2)}`;
+                }
+            }
+
+            fareAnimationId = requestAnimationFrame(updateCounter);
+        }
+
+        function calculateFare() {
+            const base = parseFloat(document.getElementById('calc-base').value) || 0;
+            const distance = parseFloat(document.getElementById('calc-distance').value) || 0;
+            const time = parseFloat(document.getElementById('calc-time').value) || 0;
+            const surcharge = parseFloat(document.getElementById('calc-surcharge').value) || 0;
+
+            const kmRate = 13.50;
+            const minRate = 2.00;
+
+            let targetTotal = 0;
+            if (distance > 0 || time > 0) {
+                targetTotal = base + (distance * kmRate) + (time * minRate) + surcharge;
+            } else if (base > 0) {
+                targetTotal = base + surcharge;
+            }
+
+            animateFareCounter(currentFareDisplay, targetTotal);
+
+            document.getElementById('calc-breakdown').innerHTML =
+                `Base (₱${base.toFixed(2)}) + Distance (₱${(distance * kmRate).toFixed(2)}) + Time (₱${(time * minRate).toFixed(2)}) + Surcharges (₱${surcharge.toFixed(2)})`;
+        }
+
+        document.getElementById('btn-calculate').addEventListener('click', calculateFare);
+        ['calc-base', 'calc-distance', 'calc-time', 'calc-surcharge'].forEach(id => {
+            document.getElementById(id).addEventListener('input', calculateFare);
+        });
+
+        // Preset Distance Handlers
+        document.querySelectorAll('.calc-preset').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.getElementById('calc-distance').value = btn.dataset.km;
+                document.getElementById('calc-time').value = btn.dataset.min;
+                calculateFare();
+                showToast(`Loaded ${btn.dataset.km} km preset`, '🧮');
+            });
+        });
+
+        /* ==========================================================================
+           Featured Destinations Carousel Controller & Smart Autoplay
+           ========================================================================== */
+        const track = document.getElementById('destinations-track');
+        const prevBtn = document.getElementById('carousel-prev-btn');
+        const nextBtn = document.getElementById('carousel-next-btn');
+        const dots = document.querySelectorAll('.carousel-dot');
+        const cards = document.querySelectorAll('.destination-card');
+
+        function updateActiveDot() {
+            if (!track || !cards.length) return;
+            const scrollLeft = track.scrollLeft;
+            const cardWidth = cards[0].offsetWidth + 18; // width + gap
+            const activeIndex = Math.round(scrollLeft / cardWidth);
+
+            dots.forEach((dot, idx) => {
+                if (idx === Math.min(activeIndex, dots.length - 1)) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        if (track) {
+            track.addEventListener('scroll', updateActiveDot, { passive: true });
+
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    const cardWidth = cards[0].offsetWidth + 18;
+                    track.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+                });
+            }
+
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    const cardWidth = cards[0].offsetWidth + 18;
+                    track.scrollBy({ left: cardWidth, behavior: 'smooth' });
+                });
+            }
+
+            dots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const targetIndex = parseInt(dot.dataset.index);
+                    const cardWidth = cards[0].offsetWidth + 18;
+                    track.scrollTo({ left: targetIndex * cardWidth, behavior: 'smooth' });
+                });
+            });
+
+            // Drag to scroll on desktop
+            let isDown = false;
+            let startX;
+            let scrollLeftPos;
+
+            track.addEventListener('mousedown', (e) => {
+                isDown = true;
+                track.classList.add('is-dragging');
+                startX = e.pageX - track.offsetLeft;
+                scrollLeftPos = track.scrollLeft;
+                pauseCarouselAutoplay();
+            });
+
+            track.addEventListener('mouseleave', () => {
+                isDown = false;
+                track.classList.remove('is-dragging');
+                startCarouselAutoplay();
+            });
+
+            track.addEventListener('mouseup', () => {
+                isDown = false;
+                track.classList.remove('is-dragging');
+                startCarouselAutoplay();
+            });
+
+            track.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - track.offsetLeft;
+                const walk = (x - startX) * 1.5;
+                track.scrollLeft = scrollLeftPos - walk;
+            });
+
+            // Touch pause / resume
+            track.addEventListener('touchstart', pauseCarouselAutoplay, { passive: true });
+            track.addEventListener('touchend', () => setTimeout(startCarouselAutoplay, 2500), { passive: true });
+
+            // Smart Autoplay
+            let autoplayTimer = null;
+            function startCarouselAutoplay() {
+                if (autoplayTimer) clearInterval(autoplayTimer);
+                autoplayTimer = setInterval(() => {
+                    if (currentScreen !== 'screen-scanner' || isDown) return;
+                    const cardWidth = cards[0].offsetWidth + 18;
+                    const maxScroll = track.scrollWidth - track.clientWidth;
+                    if (track.scrollLeft >= maxScroll - 10) {
+                        track.scrollTo({ left: 0, behavior: 'smooth' });
+                    } else {
+                        track.scrollBy({ left: cardWidth, behavior: 'smooth' });
+                    }
+                }, 5200);
+            }
+
+            function pauseCarouselAutoplay() {
+                if (autoplayTimer) {
+                    clearInterval(autoplayTimer);
+                    autoplayTimer = null;
+                }
+            }
+
+            startCarouselAutoplay();
+        }
+
+        /* ==========================================================================
+           Interactive 3D Perspective Tilt & Lighting Sheen
+           ========================================================================== */
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                const rotateX = ((y - centerY) / centerY) * -9;
+                const rotateY = ((x - centerX) / centerX) * 9;
+
+                card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-6px) scale3d(1.02, 1.02, 1.02)`;
+                card.style.setProperty('--glare-x', `${(x / rect.width) * 100}%`);
+                card.style.setProperty('--glare-y', `${(y / rect.height) * 100}%`);
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0) scale3d(1, 1, 1)';
+            });
+        });
+
+        /* ==========================================================================
+           Fluid Touch & Click Ripple Effect (Android / iOS / Desktop)
+           ========================================================================== */
+        function createRipple(event) {
+            const target = event.currentTarget;
+            const rect = target.getBoundingClientRect();
+
+            const clientX = event.clientX || (event.touches && event.touches[0] ? event.touches[0].clientX : rect.left + rect.width / 2);
+            const clientY = event.clientY || (event.touches && event.touches[0] ? event.touches[0].clientY : rect.top + rect.height / 2);
+
+            const ripple = document.createElement('span');
+            ripple.classList.add('ripple-wave');
+
+            const diameter = Math.max(rect.width, rect.height);
+            const radius = diameter / 2;
+
+            ripple.style.width = ripple.style.height = `${diameter}px`;
+            ripple.style.left = `${clientX - rect.left - radius}px`;
+            ripple.style.top = `${clientY - rect.top - radius}px`;
+
+            const existingRipple = target.querySelector('.ripple-wave');
+            if (existingRipple) existingRipple.remove();
+
+            target.appendChild(ripple);
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        }
+
+        document.querySelectorAll('.btn, .nav-link-btn, .nav-item, .test-chip, .carousel-nav-btn, .contact-item').forEach(el => {
+            el.addEventListener('pointerdown', createRipple, { passive: true });
+        });
+    </script>
+</body>
+
+</html>

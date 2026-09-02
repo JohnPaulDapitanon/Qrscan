@@ -1,0 +1,179 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 60" width="720" height="60" preserveAspectRatio="none">
+  <defs>
+    <pattern id="lguPattern" width="720" height="60" patternUnits="userSpaceOnUse">
+      <!-- Deep Vivid Royal Blue Background -->
+      <rect width="720" height="60" fill="#000EB5"/>
+
+      <!-- 1. Orange Chevron Weave (XX) -->
+      <g stroke="#FF5722" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+        <path d="M 5,6 L 22,22 L 5,38 L 22,54"/>
+        <path d="M 22,6 L 5,22 L 22,38 L 5,54"/>
+      </g>
+
+      <!-- 2. Yellow Cordillera Pine / Textile Motif -->
+      <g fill="#FFD700" stroke="#FFD700" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="46" y1="6" x2="46" y2="54" stroke-width="3"/>
+        <!-- Top triangle -->
+        <polygon points="46,6 40,15 52,15"/>
+        <!-- Mid chevron branches with tips -->
+        <polygon points="46,20 34,28 46,31 58,28"/>
+        <polygon points="46,33 31,42 46,45 61,42"/>
+        <!-- Base chevron -->
+        <polygon points="37,54 46,47 55,54"/>
+        <!-- Small accent dots/squares -->
+        <rect x="30" y="20" width="3" height="3"/>
+        <rect x="59" y="20" width="3" height="3"/>
+        <rect x="27" y="33" width="3" height="3"/>
+        <rect x="62" y="33" width="3" height="3"/>
+      </g>
+
+      <!-- 3. White Chevron Weave (XX) -->
+      <g stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+        <path d="M 74,6 L 91,22 L 74,38 L 91,54"/>
+        <path d="M 91,6 L 74,22 L 91,38 L 74,54"/>
+      </g>
+
+      <!-- 4. Orange Chevron Weave (XX) -->
+      <g stroke="#FF5722" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+        <path d="M 106,6 L 123,22 L 106,38 L 123,54"/>
+        <path d="M 123,6 L 106,22 L 123,38 L 106,54"/>
+      </g>
+
+      <!-- 5. Yellow Diamond Hourglass Weave -->
+      <g stroke="#FFD700" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+        <path d="M 140,8 L 156,22 L 140,36"/>
+        <path d="M 156,8 L 140,22 L 156,36"/>
+        <path d="M 140,24 L 156,38 L 140,52"/>
+        <path d="M 156,24 L 140,38 L 156,52"/>
+      </g>
+
+      <!-- 6. White Chevron Weave (XX) -->
+      <g stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+        <path d="M 172,6 L 189,22 L 172,38 L 189,54"/>
+        <path d="M 189,6 L 172,22 L 189,38 L 172,54"/>
+      </g>
+
+      <!-- 7. Orange Monument Obelisk Silhouette -->
+      <g fill="#FF5722" stroke="#FF5722">
+        <!-- Base steps -->
+        <rect x="204" y="47" width="14" height="6" rx="1"/>
+        <rect x="206" y="38" width="10" height="9"/>
+        <!-- Tapered Spire -->
+        <polygon points="208,38 210,13 212,13 214,38"/>
+        <circle cx="211" cy="9" r="2.5"/>
+        <line x1="202" y1="53" x2="220" y2="53" stroke-width="2"/>
+      </g>
+
+      <!-- 8. Orange Gazebo / Gate Landmark Silhouette -->
+      <g fill="#FF5722" stroke="#FF5722" stroke-linejoin="round">
+        <path d="M 230,23 Q 244,14 258,8 Q 272,14 286,23 L 282,27 L 234,27 Z"/>
+        <rect x="236" y="27" width="44" height="26"/>
+        <!-- Central Portal Cutout -->
+        <path d="M 248,53 L 248,39 Q 258,32 268,39 L 268,53 Z" fill="#000EB5" stroke="#000EB5"/>
+      </g>
+
+      <!-- 9. Yellow Diamond Hourglass Weave -->
+      <g stroke="#FFD700" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+        <path d="M 302,8 L 318,22 L 302,36"/>
+        <path d="M 318,8 L 302,22 L 318,36"/>
+        <path d="M 302,24 L 318,38 L 302,52"/>
+        <path d="M 318,24 L 302,38 L 318,52"/>
+      </g>
+
+      <!-- 10. White Chevron Weave (XX) -->
+      <g stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+        <path d="M 334,6 L 351,22 L 334,38 L 351,54"/>
+        <path d="M 351,6 L 334,22 L 351,38 L 334,54"/>
+      </g>
+
+      <!-- 11. Orange Chevron Weave (XX) -->
+      <g stroke="#FF5722" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+        <path d="M 366,6 L 383,22 L 366,38 L 383,54"/>
+        <path d="M 383,6 L 366,22 L 383,38 L 366,54"/>
+      </g>
+
+      <!-- 12. Yellow Diamond Hourglass Weave -->
+      <g stroke="#FFD700" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+        <path d="M 398,8 L 414,22 L 398,36"/>
+        <path d="M 414,8 L 398,22 L 414,36"/>
+        <path d="M 398,24 L 414,38 L 398,52"/>
+        <path d="M 414,24 L 398,38 L 414,52"/>
+      </g>
+
+      <!-- 13. Mountains & Sea of Clouds Waves -->
+      <g>
+        <!-- Top Wave ripples -->
+        <path d="M 426,12 Q 431,7 436,12 T 446,12 T 456,12 T 466,12" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M 426,18 Q 431,13 436,18 T 446,18 T 456,18 T 466,18" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+        
+        <!-- Yellow Mountain Ridge Silhouette -->
+        <path d="M 426,35 Q 436,25 444,22 Q 454,26 468,36 Z" fill="#FFD700"/>
+        
+        <!-- Bottom Wave ripples -->
+        <path d="M 426,43 Q 431,38 436,43 T 446,43 T 456,43 T 466,43" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M 426,49 Q 431,44 436,49 T 446,49 T 456,49 T 466,49" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+      </g>
+
+      <!-- 14. Orange Chevron Weave (XX) -->
+      <g stroke="#FF5722" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+        <path d="M 480,6 L 497,22 L 480,38 L 497,54"/>
+        <path d="M 497,6 L 480,22 L 497,38 L 480,54"/>
+      </g>
+
+      <!-- 15. Yellow Diamond Hourglass Weave -->
+      <g stroke="#FFD700" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+        <path d="M 512,8 L 528,22 L 512,36"/>
+        <path d="M 528,8 L 512,22 L 528,36"/>
+        <path d="M 512,24 L 528,38 L 512,52"/>
+        <path d="M 528,24 L 512,38 L 528,52"/>
+      </g>
+
+      <!-- 16. White Chevron Weave (XX) -->
+      <g stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+        <path d="M 544,6 L 561,22 L 544,38 L 561,54"/>
+        <path d="M 561,6 L 544,22 L 561,38 L 544,54"/>
+      </g>
+
+      <!-- 17. Orange Chevron Weave (XX) -->
+      <g stroke="#FF5722" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+        <path d="M 576,6 L 593,22 L 576,38 L 593,54"/>
+        <path d="M 593,6 L 576,22 L 593,38 L 576,54"/>
+      </g>
+
+      <!-- 18. Yellow Sunburst / Pine Rosette Motif -->
+      <g fill="#FFD700" stroke="#FFD700" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="622" cy="30" r="4.5"/>
+        <!-- 6-8 Geometric Petals -->
+        <polygon points="622,12 626,21 618,21"/>
+        <polygon points="622,48 626,39 618,39"/>
+        <polygon points="604,30 613,26 613,34"/>
+        <polygon points="640,30 631,26 631,34"/>
+        <polygon points="608,17 617,23 612,27"/>
+        <polygon points="636,43 627,37 632,33"/>
+        <polygon points="636,17 632,27 627,23"/>
+        <polygon points="608,43 612,33 617,37"/>
+        <circle cx="622" cy="9" r="2"/>
+        <circle cx="622" cy="51" r="2"/>
+        <circle cx="601" cy="30" r="2"/>
+        <circle cx="643" cy="30" r="2"/>
+      </g>
+
+      <!-- 19. Orange Chevron Weave (XX) -->
+      <g stroke="#FF5722" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+        <path d="M 656,6 L 673,22 L 656,38 L 673,54"/>
+        <path d="M 673,6 L 656,22 L 673,38 L 656,54"/>
+      </g>
+
+      <!-- 20. Yellow Diamond Hourglass Weave -->
+      <g stroke="#FFD700" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+        <path d="M 688,8 L 704,22 L 688,36"/>
+        <path d="M 704,8 L 688,22 L 704,36"/>
+        <path d="M 688,24 L 704,38 L 688,52"/>
+        <path d="M 704,24 L 688,38 L 704,52"/>
+      </g>
+    </pattern>
+  </defs>
+
+  <!-- Complete Repeating Graphic -->
+  <rect width="100%" height="100%" fill="url(#lguPattern)"/>
+</svg>
