@@ -40,25 +40,53 @@
             modal.hidden = false;
             document.body.classList.add('qi-modal-open');
             modal.querySelector('.qi-modal-close').focus();
+            // Give the popup its own history entry so the phone's Back button closes it
+            // instead of leaving the site.
+            history.pushState({ qiModal: modalId }, '');
         }
 
+        // Hide the open popup and bring the Commuter Quick Info card back into view.
         function closeQuickInfoModal() {
             const modal = document.querySelector('.qi-modal:not([hidden])');
             if (!modal) return;
             modal.hidden = true;
             document.body.classList.remove('qi-modal-open');
-            if (activeModalTrigger) activeModalTrigger.focus();
+            const card = document.querySelector('[data-ci-card]');
+            // Wait a frame: on Back the browser restores the old scroll position first,
+            // which would cancel an immediate scroll.
+            if (card) {
+                setTimeout(() => {
+                    const header = document.querySelector('.site-header');
+                    const offset = (header ? header.offsetHeight : 0) + 16; // clear the sticky header
+                    window.scrollTo(0, card.getBoundingClientRect().top + window.scrollY - offset);
+                }, 50);
+            }
+            if (activeModalTrigger) activeModalTrigger.focus({ preventScroll: true });
             activeModalTrigger = null;
         }
+
+        // X button / Escape: step back through the popup's history entry; the popstate
+        // handler below then closes it, so no stray entry is left behind.
+        function requestCloseQuickInfoModal() {
+            if (!document.querySelector('.qi-modal:not([hidden])')) return;
+            if (history.state && history.state.qiModal) {
+                history.back();
+            } else {
+                closeQuickInfoModal();
+            }
+        }
+
+        // Phone/browser Back button (and the history.back() above)
+        window.addEventListener('popstate', closeQuickInfoModal);
 
         document.querySelectorAll('.quick-info-trigger').forEach((btn) => {
             btn.addEventListener('click', () => openQuickInfoModal(btn.dataset.modal, btn));
         });
         document.querySelectorAll('[data-close-modal]').forEach((btn) => {
-            btn.addEventListener('click', closeQuickInfoModal);
+            btn.addEventListener('click', requestCloseQuickInfoModal);
         });
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeQuickInfoModal();
+            if (e.key === 'Escape') requestCloseQuickInfoModal();
         });
 
         // Fuel Price Watchlist — SAMPLE DATA. Replace with the week's prices; null = not sold.
