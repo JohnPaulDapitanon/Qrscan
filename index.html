@@ -14,6 +14,7 @@
     <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
     <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="commuter-info.css">
 </head>
 
 <body>
@@ -168,6 +169,7 @@
 
                 <!-- Right Card: Information & Quick Test Profiles -->
                 <div>
+                    <div id="commuter-info"></div>
                     <div class="web-card">
                         <div class="web-card-title-row">
                             <h3 class="web-card-title">
@@ -434,6 +436,10 @@
                                     </svg>
                                     <span id="prof-dept-text">City of Mati Davao Oriental</span>
                                 </span>
+                                <div class="operator-secondary" id="prof-operator">
+                                    <h3 class="operator-secondary-name" id="prof-operator-name">Operator Name</h3>
+                                    <p class="operator-secondary-role" id="prof-operator-role">Operator Role</p>
+                                </div>
                             </div>
                         </div>
 
@@ -820,6 +826,8 @@
                 name: "Juan Dela Cruz",
                 role: "Pedicab Operator",
                 dept: "City of Mati Davao Oriental",
+                operatorName: "Operator Name",
+                operatorRole: "Operator Role",
                 plate: "0312",
                 permit: "CFO-25-7764",
                 model: "Pedicab model with Red and Black Design",
@@ -1094,6 +1102,9 @@
             document.getElementById('prof-name').textContent = p.name;
             document.getElementById('prof-role').textContent = p.role;
             document.getElementById('prof-dept-text').textContent = p.dept || 'LGU Transport';
+            document.getElementById('prof-operator-name').textContent = p.operatorName || '';
+            document.getElementById('prof-operator-role').textContent = p.operatorRole || '';
+            document.getElementById('prof-operator').hidden = !(p.operatorName || p.operatorRole);
             document.getElementById('prof-bio').textContent = p.bio || 'Authorized operator registered with LGU Vehicle Safe program.';
             document.getElementById('prof-plate').textContent = p.plate;
             document.getElementById('prof-permit').textContent = p.permit;
@@ -1382,6 +1393,7 @@
             el.addEventListener('pointerdown', createRipple, { passive: true });
         });
     </script>
+    <script src="commuter-info.js" defer></script>
 </body>
 
 </html>

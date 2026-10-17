@@ -1,0 +1,339 @@
+<!--
+    Commuter Quick Info — loaded into index.html by commuter-info.js.
+    1) The card (marked data-ci-card) replaces <div id="commuter-info"></div>.
+    2) Everything after it (the three popups) is added to the end of <body>.
+    Edit text, numbers and images here; no other file needs to change.
+-->
+
+<!-- Commuter Quick Info: Hotlines, Fuel Prices, Nearest Station -->
+<div class="web-card" data-ci-card>
+    <div class="web-card-title-row">
+        <h3 class="web-card-title">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2.2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M10.6 10.6h2l-1.4 5.8h2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <circle cx="13.1" cy="7.4" r="1.1" fill="currentColor" stroke="none"></circle>
+            </svg>
+            <span>Commuter Quick Info</span>
+        </h3>
+    </div>
+
+    <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px;">
+        Handy travel information for commuters in the City of Mati. Tap any item to view emergency
+        hotline numbers, check current fuel prices, or find the nearest gasoline station.
+    </p>
+
+    <ul class="feature-list">
+        <li>
+            <button type="button" class="feature-item quick-info-trigger" data-modal="modal-hotlines">
+                <div class="feature-icon-wrap">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path transform="translate(0 3.5) scale(0.82)"
+                            d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z" />
+                        <text x="17" y="9.5" text-anchor="middle" font-size="6.5" font-weight="800"
+                            font-family="Arial, Helvetica, sans-serif">SOS</text>
+                    </svg>
+                </div>
+                <div class="quick-info-body">
+                    <div class="feature-title">Emergency Hotlines</div>
+                </div>
+                <svg class="quick-info-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
+        </li>
+        <li>
+            <button type="button" class="feature-item quick-info-trigger" data-modal="modal-fuel">
+                <div class="feature-icon-wrap">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path
+                            d="M19.77 7.23l.01-.01-3.72-3.72L15 4.56l2.11 2.11c-.94.36-1.61 1.26-1.61 2.33 0 1.38 1.12 2.5 2.5 2.5.36 0 .69-.08 1-.21v7.21c0 .55-.45 1-1 1s-1-.45-1-1V14c0-1.1-.9-2-2-2h-1V5c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v16h10v-7.5h1.5v5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V9c0-.69-.28-1.32-.73-1.77zM12 10H6V5h6v5zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z" />
+                    </svg>
+                </div>
+                <div class="quick-info-body">
+                    <div class="feature-title">Fuel Price Watchlist</div>
+                </div>
+                <svg class="quick-info-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
+        </li>
+        <li>
+            <button type="button" class="feature-item quick-info-trigger" data-modal="modal-gas">
+                <div class="feature-icon-wrap">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M12 1.5C7.86 1.5 4.5 4.86 4.5 9c0 5.6 7.5 13.5 7.5 13.5s7.5-7.9 7.5-13.5c0-4.14-3.36-7.5-7.5-7.5z" />
+                        <path fill="#0F2942" transform="translate(12 9) scale(0.45) translate(-12.2 -12)"
+                            d="M19.77 7.23l.01-.01-3.72-3.72L15 4.56l2.11 2.11c-.94.36-1.61 1.26-1.61 2.33 0 1.38 1.12 2.5 2.5 2.5.36 0 .69-.08 1-.21v7.21c0 .55-.45 1-1 1s-1-.45-1-1V14c0-1.1-.9-2-2-2h-1V5c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v16h10v-7.5h1.5v5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V9c0-.69-.28-1.32-.73-1.77zM12 10H6V5h6v5zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z" />
+                    </svg>
+                </div>
+                <div class="quick-info-body">
+                    <div class="feature-title">Nearest Gasoline Station</div>
+                </div>
+                <svg class="quick-info-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
+        </li>
+    </ul>
+</div>
+
+<!-- Commuter Quick Info Fullscreen Modals -->
+<div class="qi-modal" id="modal-hotlines" role="dialog" aria-modal="true" aria-labelledby="modal-hotlines-title" hidden>
+    <div class="qi-modal-header">
+        <div class="qi-modal-pill">
+            <button type="button" class="qi-modal-close" data-close-modal aria-label="Close">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+                    stroke-linecap="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <h2 class="qi-modal-title" id="modal-hotlines-title">Emergency Hotlines</h2>
+        </div>
+    </div>
+    <div class="qi-modal-body hl-body">
+        <section class="hl-hero">
+            <div class="hl-wrap hl-hero-inner">
+                <div class="hl-hero-main">
+                    <img src="assets/images/logo/mati-logo.png" alt="City of Mati Official Seal" class="hl-hero-seal">
+                    <div class="hl-hero-copy">
+                        <p class="hl-eyebrow">City Government of Mati</p>
+                        <h3 class="hl-hero-title">Emergency Hotlines</h3>
+                    </div>
+                </div>
+                <a href="tel:911" class="hl-911-card" aria-label="Call 911, National Emergency Hotline">
+                    <span class="hl-911-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></span>
+                    <span class="hl-911-number">911</span>
+                    <span class="hl-911-label">National Emergency Hotline</span>
+                </a>
+            </div>
+        </section>
+
+        <div class="hl-main">
+            <div class="hl-wrap hl-cards">
+                <!-- Left column -->
+                <article class="hl-card">
+                    <img src="assets/images/hotlines/cho-ems.png" alt="" class="hl-card-logo">
+                    <div class="hl-card-body">
+                        <p class="hl-cat hl-cat--medical">Medical</p>
+                        <h4 class="hl-card-name">CHO – EMS Emergency Medical Service</h4>
+                        <div class="hl-nums">
+                            <a href="tel:09518409073" aria-label="Call CHO – EMS Emergency Medical Service, 0951-840-9073">0951-840-9073</a>
+                            <a href="tel:09532131206" aria-label="Call CHO – EMS Emergency Medical Service, 0953-213-1206">0953-213-1206</a>
+                        </div>
+                    </div>
+                </article>
+                <article class="hl-card">
+                    <img src="assets/images/hotlines/cho.png" alt="" class="hl-card-logo">
+                    <div class="hl-card-body">
+                        <p class="hl-cat hl-cat--medical">Medical</p>
+                        <h4 class="hl-card-name">City Health Office</h4>
+                        <div class="hl-nums">
+                            <a href="tel:3884428" aria-label="Call City Health Office, 3884-428">3884-428</a>
+                            <a href="tel:3884429" aria-label="Call City Health Office, 3884-429">3884-429</a>
+                            <a href="tel:09813391408" aria-label="Call City Health Office, 0981-339-1408">0981-339-1408</a>
+                        </div>
+                    </div>
+                </article>
+                <article class="hl-card">
+                    <img src="assets/images/hotlines/red-cross.png" alt="" class="hl-card-logo">
+                    <div class="hl-card-body">
+                        <p class="hl-cat hl-cat--medical">Medical</p>
+                        <h4 class="hl-card-name">Philippine Red Cross – Davao Oriental Chapter</h4>
+                        <div class="hl-nums">
+                            <a href="tel:3884022" aria-label="Call Philippine Red Cross, 3884-022">3884-022</a>
+                            <a href="tel:09650849924" aria-label="Call Philippine Red Cross, 0965-084-9924">0965-084-9924</a>
+                            <a href="tel:09052775186" aria-label="Call Philippine Red Cross, 0905-277-5186">0905-277-5186</a>
+                        </div>
+                    </div>
+                </article>
+                <article class="hl-card">
+                    <img src="assets/images/hotlines/bfp.png" alt="" class="hl-card-logo">
+                    <div class="hl-card-body">
+                        <p class="hl-cat hl-cat--fire">Fire &amp; Disaster</p>
+                        <h4 class="hl-card-name">Mati Fire Station</h4>
+                        <div class="hl-nums">
+                            <a href="tel:160" aria-label="Call Mati Fire Station, 160">160</a>
+                            <a href="tel:09518126593" aria-label="Call Mati Fire Station, 0951-812-6593">0951-812-6593</a>
+                            <a href="tel:09657828090" aria-label="Call Mati Fire Station, 0965-782-8090">0965-782-8090</a>
+                        </div>
+                    </div>
+                </article>
+                <article class="hl-card">
+                    <img src="assets/images/hotlines/drrmo.png" alt="" class="hl-card-logo">
+                    <div class="hl-card-body">
+                        <p class="hl-cat hl-cat--fire">Fire &amp; Disaster</p>
+                        <h4 class="hl-card-name">Disaster Risk Reduction &amp; Management Office</h4>
+                        <div class="hl-nums">
+                            <a href="tel:3884426" aria-label="Call Disaster Risk Reduction &amp; Management Office, 3884-426">3884-426</a>
+                            <a href="tel:09123454666" aria-label="Call Disaster Risk Reduction &amp; Management Office, 0912-345-4666">0912-345-4666</a>
+                            <a href="tel:09277630050" aria-label="Call Disaster Risk Reduction &amp; Management Office, 0927-763-0050">0927-763-0050</a>
+                        </div>
+                    </div>
+                </article>
+                <!-- Right column -->
+                <article class="hl-card">
+                    <img src="assets/images/hotlines/coast-guard.png" alt="" class="hl-card-logo">
+                    <div class="hl-card-body">
+                        <p class="hl-cat hl-cat--fire">Fire &amp; Disaster</p>
+                        <h4 class="hl-card-name">Philippine Coast Guard – Davao Oriental Station</h4>
+                        <div class="hl-nums">
+                            <a href="tel:09668370536" aria-label="Call Philippine Coast Guard, 0966-837-0536">0966-837-0536</a>
+                        </div>
+                    </div>
+                </article>
+                <article class="hl-card">
+                    <img src="assets/images/hotlines/pnp.png" alt="" class="hl-card-logo">
+                    <div class="hl-card-body">
+                        <p class="hl-cat hl-cat--police">Police &amp; Security</p>
+                        <h4 class="hl-card-name">Mati City Police Station</h4>
+                        <div class="hl-nums">
+                            <a href="tel:09985987122" aria-label="Call Mati City Police Station, 0998-598-7122">0998-598-7122</a>
+                        </div>
+                    </div>
+                </article>
+                <article class="hl-card">
+                    <img src="assets/images/hotlines/eodk9.png" alt="" class="hl-card-logo">
+                    <div class="hl-card-body">
+                        <p class="hl-cat hl-cat--police">Police &amp; Security</p>
+                        <h4 class="hl-card-name">EODK9 Unit PNP PECU Davao Oriental</h4>
+                        <div class="hl-nums">
+                            <a href="tel:09691184775" aria-label="Call EODK9 Unit PNP PECU, 0969-118-4775">0969-118-4775</a>
+                        </div>
+                    </div>
+                </article>
+                <article class="hl-card">
+                    <img src="assets/images/hotlines/army-66ib.png" alt="" class="hl-card-logo">
+                    <div class="hl-card-body">
+                        <p class="hl-cat hl-cat--police">Police &amp; Security</p>
+                        <h4 class="hl-card-name">66th Infantry Battalion, Philippine Army</h4>
+                        <div class="hl-nums">
+                            <a href="tel:09171569461" aria-label="Call 66th Infantry Battalion, 0917-156-9461">0917-156-9461</a>
+                        </div>
+                    </div>
+                </article>
+                <article class="hl-card">
+                    <img src="assets/images/hotlines/cswdo.png" alt="" class="hl-card-logo">
+                    <div class="hl-card-body">
+                        <p class="hl-cat hl-cat--social">Social Welfare</p>
+                        <h4 class="hl-card-name">City Social Welfare &amp; Development Office</h4>
+                        <div class="hl-nums">
+                            <a href="tel:3883326" aria-label="Call City Social Welfare &amp; Development Office, 3883-326">3883-326</a>
+                            <a href="tel:09753582876" aria-label="Call City Social Welfare &amp; Development Office, 0975-358-2876">0975-358-2876</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+        <div class="hl-foot">
+            <div class="hl-wrap hl-foot-inner">
+                <img src="assets/images/logo/feelmati_white.png" alt="Feel Mati – More Adventures, Truly Incredible" class="hl-foot-logo">
+                <div class="hl-foot-slogan">
+                    <span class="hl-foot-tag">Together, Yes We Can</span>
+                    <span class="hl-foot-sub">Para sa Tanan</span>
+                </div>                </div>
+        </div>
+    </div>
+</div>
+
+<div class="qi-modal" id="modal-fuel" role="dialog" aria-modal="true" aria-labelledby="modal-fuel-title" hidden>
+    <div class="qi-modal-header">
+        <div class="qi-modal-pill">
+            <button type="button" class="qi-modal-close" data-close-modal aria-label="Close">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+                    stroke-linecap="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <h2 class="qi-modal-title" id="modal-fuel-title">Fuel Price Watchlist</h2>
+        </div>
+    </div>
+    <div class="qi-modal-body fw-body">
+        <div class="fw-wrap">
+            <section class="fw-hero">
+                <p class="fw-eyebrow">Fuel price watchlist</p>
+                <h3 class="fw-title">Fuel prices this&nbsp;week.</h3>
+                <p class="fw-intro">Average pump prices per liter by brand in Mati City, and how they moved since last week.</p>
+            </section>
+
+            <div class="fw-stats">
+                <div class="fw-stat">
+                    <p class="fw-stat-label">Diesel</p>
+                    <p class="fw-stat-value fw-down"><strong>▼₱3.00</strong><span>rollback / L</span></p>
+                </div>
+                <div class="fw-stat">
+                    <p class="fw-stat-label">Gasoline</p>
+                    <p class="fw-stat-value fw-up"><strong>▲₱1.52</strong><span>increase / L</span></p>
+                </div>
+                <div class="fw-stat">
+                    <p class="fw-stat-label">Kerosene</p>
+                    <p class="fw-stat-value fw-up"><strong>▲₱1.73</strong><span>increase / L</span></p>
+                </div>
+            </div>
+
+            <section class="fw-section">
+                <div class="fw-section-head">
+                    <div>
+                        <h3 class="fw-section-title">Stations</h3>
+                        <p class="fw-section-sub">Sorted by price, cheapest first. A gold underline marks the lowest price in the city.</p>
+                    </div>
+                    <span class="fw-badge">Sample stations</span>
+                </div>
+                <div class="fw-stations-scroll" tabindex="0" role="region" aria-label="Fuel stations list">
+                    <div class="fw-stations" id="fw-stations"></div>
+                </div>
+            </section>
+
+            <section class="fw-section">
+                <div class="fw-section-head">
+                    <div>
+                        <h3 class="fw-section-title">All prices</h3>
+                        <p class="fw-section-sub">The lowest price for each fuel is highlighted. Select a column to rank by it.</p>
+                    </div>
+                </div>
+                <div class="fw-table-wrap">
+                    <table class="fw-table" id="fw-table">
+                        <thead></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <div class="fw-foot">
+            <div class="fw-wrap fw-foot-inner">
+                <span>Source: [PRICE MONITORING SOURCE] · Brand averages · ▼ rollback, ▲ increase vs last week</span>
+                <span>Together, Yes We Can · Para sa Tanan</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="qi-modal" id="modal-gas" role="dialog" aria-modal="true" aria-labelledby="modal-gas-title" hidden>
+    <div class="qi-modal-header">
+        <div class="qi-modal-pill">
+            <button type="button" class="qi-modal-close" data-close-modal aria-label="Close">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+                    stroke-linecap="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <h2 class="qi-modal-title" id="modal-gas-title">Nearest Gasoline Station</h2>
+        </div>
+    </div>
+    <div class="qi-modal-body qi-modal-body-map">
+        <iframe class="qi-map-frame" title="Gas stations in the City of Mati" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            data-src="https://maps.google.com/maps?q=gas+station+City+of+Mati+Davao+Oriental&output=embed"></iframe>
+        <a href="https://www.google.com/maps/search/gas+station+City+of+Mati+Davao+Oriental" class="btn btn-blue qi-map-btn"
+            id="btn-nearest-gas" target="_blank" rel="noopener">Use my location in Google Maps</a>
+    </div>
+</div>

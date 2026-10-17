@@ -932,6 +932,27 @@ body {
     color: var(--text-muted);
 }
 
+.operator-secondary {
+    margin-top: 10px;
+}
+
+.operator-secondary[hidden] {
+    display: none;
+}
+
+.operator-secondary-name {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--primary-navy);
+    margin-bottom: 2px;
+}
+
+.operator-secondary-role {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
 .grid-two-cols {
     display: grid;
     grid-template-columns: 1fr 1fr;
