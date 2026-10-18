@@ -258,9 +258,9 @@
     <div class="qi-modal-body fw-body">
         <div class="fw-wrap">
             <section class="fw-hero">
-                <p class="fw-eyebrow">Fuel price watchlist</p>
+                <p class="fw-eyebrow">CITY GOVERNMENT OF MATI</p>
                 <h3 class="fw-title">Fuel prices this&nbsp;week.</h3>
-                <p class="fw-intro">Average pump prices per liter by brand in Mati City, and how they moved since last week.</p>
+                <p class="fw-intro">Kasagarang presyo sa gasolina kada litro sumala sa brand sa Dakbayan sa Mati, ug ang kausaban niini sukad sa miaging semana.</p>
             </section>
 
             <div class="fw-stats">
@@ -284,7 +284,16 @@
                         <h3 class="fw-section-title">Stations</h3>
                         <p class="fw-section-sub">Sorted by price, cheapest first. A gold underline marks the lowest price in the city.</p>
                     </div>
-                    <span class="fw-badge">Sample stations</span>
+                    <label class="fw-sort-select">
+                        <span>Sort by</span>
+                        <select id="fw-station-sort">
+                            <option value="unleaded">Unleaded</option>
+                            <option value="premium">Premium</option>
+                            <option value="diesel" selected>Diesel</option>
+                            <option value="premiumDiesel">Premium Diesel</option>
+                            <option value="kerosene">Kerosene</option>
+                        </select>
+                    </label>
                 </div>
                 <div class="fw-stations-scroll" tabindex="0" role="region" aria-label="Fuel stations list">
                     <div class="fw-stations" id="fw-stations"></div>
@@ -298,7 +307,7 @@
                         <p class="fw-section-sub">The lowest price for each fuel is highlighted. Select a column to rank by it.</p>
                     </div>
                 </div>
-                <div class="fw-table-wrap">
+                <div class="fw-table-wrap" tabindex="0" role="region" aria-label="All fuel prices table">
                     <table class="fw-table" id="fw-table">
                         <thead></thead>
                         <tbody></tbody>
@@ -307,10 +316,13 @@
             </section>
         </div>
 
-        <div class="fw-foot">
-            <div class="fw-wrap fw-foot-inner">
-                <span>Source: [PRICE MONITORING SOURCE] · Brand averages · ▼ rollback, ▲ increase vs last week</span>
-                <span>Together, Yes We Can · Para sa Tanan</span>
+        <div class="hl-foot">
+            <div class="hl-wrap hl-foot-inner">
+                <img src="assets/images/logo/feelmati_white.png" alt="Feel Mati – More Adventures, Truly Incredible" class="hl-foot-logo">
+                <div class="hl-foot-slogan">
+                    <span class="hl-foot-tag">Together, Yes We Can</span>
+                    <span class="hl-foot-sub">Para sa Tanan</span>
+                </div>
             </div>
         </div>
     </div>

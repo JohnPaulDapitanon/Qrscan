@@ -92,24 +92,55 @@
         });
 
         // Fuel Price Watchlist — SAMPLE DATA. Replace with the week's prices; null = not sold.
+        // Same stations, in the same order, as gas-stations.json (the map); keep the two lists in step.
         const FUEL_STATIONS = [
-            { brand: 'Seaoil', place: 'Brgy. Sainz', unleaded: 92.55, premium: 94.85, diesel: 90.80, premiumDiesel: 96.60, kerosene: 133.75 },
-            { brand: 'Petron', place: 'Brgy. Poblacion', unleaded: 92.40, premium: 93.40, diesel: 91.60, premiumDiesel: 94.90, kerosene: 128.50 },
-            { brand: 'Phoenix', place: 'Brgy. Madang', unleaded: 92.20, premium: 93.35, diesel: 91.65, premiumDiesel: null, kerosene: null },
-            { brand: 'Petron', place: 'Brgy. Badas', unleaded: 92.60, premium: 93.60, diesel: 91.75, premiumDiesel: 95.05, kerosene: null },
-            { brand: 'Shell', place: 'Brgy. Dahican', unleaded: 94.00, premium: 100.30, diesel: 92.45, premiumDiesel: 98.05, kerosene: 131.90 },
-            { brand: 'Shell', place: 'Brgy. Matiao', unleaded: 94.10, premium: 100.40, diesel: 92.50, premiumDiesel: null, kerosene: null },
-            { brand: 'Caltex', place: 'Brgy. Dawan', unleaded: 93.90, premium: 99.75, diesel: 93.10, premiumDiesel: 97.95, kerosene: null },
-            { brand: 'Caltex', place: 'Brgy. Central', unleaded: 94.05, premium: 99.80, diesel: 93.20, premiumDiesel: 98.00, kerosene: 127.60 },
+            { brand: 'Damke', place: 'Bilawan 2, City of Mati', unleaded: 91.40, premium: 92.60, diesel: 90.20, premiumDiesel: null, kerosene: null },
+            { brand: 'Petron', place: 'Madang, City of Mati', unleaded: 92.60, premium: 93.60, diesel: 91.70, premiumDiesel: 95.05, kerosene: 128.60 },
+            { brand: 'Shell', place: 'Madang, City of Mati', unleaded: 94.05, premium: 100.35, diesel: 92.45, premiumDiesel: 98.05, kerosene: 131.90 },
+            { brand: 'My Gas', place: 'Madang, City of Mati', unleaded: 91.60, premium: 92.80, diesel: 90.40, premiumDiesel: null, kerosene: null },
+            { brand: 'Phoenix', place: 'Surigao - Davao Coastal Road, City of Mati', unleaded: 92.25, premium: 93.35, diesel: 91.65, premiumDiesel: null, kerosene: null },
+            { brand: 'Seaoil', place: 'Surigao - Davao Coastal Road, City of Mati', unleaded: 92.55, premium: 94.85, diesel: 90.85, premiumDiesel: 96.60, kerosene: 133.75 },
+            { brand: 'Fusion', place: 'Rizal Street, City of Mati', unleaded: 91.85, premium: 93.05, diesel: 90.65, premiumDiesel: null, kerosene: null },
+            { brand: 'Damke', place: 'Mati-Maragusan Road, City of Mati', unleaded: 91.45, premium: 92.65, diesel: 90.25, premiumDiesel: null, kerosene: null },
+            { brand: 'Petron', place: 'Poblacion, City of Mati', unleaded: 92.65, premium: 93.65, diesel: 91.75, premiumDiesel: 95.10, kerosene: 128.65 },
+            { brand: 'Shell', place: 'Poblacion, City of Mati', unleaded: 94.10, premium: 100.40, diesel: 92.50, premiumDiesel: 98.10, kerosene: 131.95 },
+            { brand: 'Star', place: 'Tagawisan, City of Mati', unleaded: 91.50, premium: 92.70, diesel: 90.35, premiumDiesel: null, kerosene: null },
+            { brand: 'Flying V', place: 'Tagawisan, City of Mati', unleaded: 91.75, premium: 92.95, diesel: 90.55, premiumDiesel: null, kerosene: 127.90 },
+            { brand: 'Seaoil', place: 'President Diosdado P. Macapagal Highway, City of Mati', unleaded: 92.60, premium: 94.90, diesel: 90.90, premiumDiesel: 96.65, kerosene: 133.80 },
+            { brand: 'Jetti', place: 'President Diosdado P. Macapagal Highway, City of Mati', unleaded: 91.90, premium: 93.10, diesel: 90.70, premiumDiesel: null, kerosene: null },
+            { brand: 'Flying V', place: 'Dahican Rotunda, City of Mati', unleaded: 91.80, premium: 93.00, diesel: 90.60, premiumDiesel: null, kerosene: 127.95 },
+            { brand: 'Zep Oil', place: 'Dahican Rotunda, City of Mati', unleaded: 91.30, premium: 92.50, diesel: 90.10, premiumDiesel: null, kerosene: null },
+            { brand: 'My Gas', place: 'President Diosdado P. Macapagal Highway, City of Mati', unleaded: 91.65, premium: 92.85, diesel: 90.45, premiumDiesel: null, kerosene: null },
+            { brand: 'Phoenix', place: 'President Diosdado P. Macapagal Highway, City of Mati', unleaded: 92.30, premium: 93.40, diesel: 91.70, premiumDiesel: null, kerosene: null },
+            { brand: 'Shell', place: 'President Diosdado P. Macapagal Highway, City of Mati', unleaded: 94.00, premium: 100.30, diesel: 92.40, premiumDiesel: 98.00, kerosene: 131.85 },
+            { brand: 'Seaoil', place: 'President Diosdado P. Macapagal Highway, City of Mati', unleaded: 92.50, premium: 94.80, diesel: 90.80, premiumDiesel: 96.55, kerosene: 133.70 },
+            { brand: 'YKG', place: 'President Diosdado P. Macapagal Highway, City of Mati', unleaded: 91.20, premium: 92.40, diesel: 90.00, premiumDiesel: null, kerosene: null },
+            { brand: 'Gas station', place: 'President Diosdado P. Macapagal Highway, City of Mati', unleaded: 91.00, premium: null, diesel: 89.90, premiumDiesel: null, kerosene: null },
+            { brand: 'RM Petrol', place: 'President Diosdado P. Macapagal Highway, City of Mati', unleaded: 91.10, premium: 92.30, diesel: 89.95, premiumDiesel: null, kerosene: null },
+            { brand: 'My Gas', place: 'President Diosdado P. Macapagal Highway, City of Mati', unleaded: 91.55, premium: 92.75, diesel: 90.35, premiumDiesel: null, kerosene: null },
+            { brand: 'Petro Gazz', place: 'Dahican-Lawigan Road, City of Mati', unleaded: 91.70, premium: 92.90, diesel: 90.50, premiumDiesel: null, kerosene: 128.20 },
+            { brand: 'Omnah Gas', place: 'Dahican-Lawigan Road, City of Mati', unleaded: 91.25, premium: 92.45, diesel: 90.05, premiumDiesel: null, kerosene: null },
+            { brand: 'Botrol Fuels', place: 'Dawan, City of Mati', unleaded: 90.95, premium: 92.15, diesel: 89.80, premiumDiesel: null, kerosene: null },
         ];
 
-        // Brand averages as [price, change vs last week]; null = not sold.
         const FUEL_BRANDS = [
-            { brand: 'Shell', stations: 204, diesel: [92.47, -2.97], premiumDiesel: [98.07, -3.00], unleaded91: [94.02, 1.48], egas: null, premium95: [100.32, 1.50], premium97: [103.02, 1.50], kerosene: [131.95, 1.70] },
-            { brand: 'Petron', stations: 240, diesel: [91.72, -2.99], premiumDiesel: [95.03, -3.00], unleaded91: [92.59, 1.46], egas: null, premium95: [93.57, 1.44], premium97: [101.82, 1.50], kerosene: [128.68, 1.70] },
-            { brand: 'Caltex', stations: 131, diesel: [93.21, -3.05], premiumDiesel: [98.01, -3.01], unleaded91: [94.04, 1.56], egas: null, premium95: [99.84, 1.56], premium97: [101.06, 1.56], kerosene: [127.65, 1.77] },
-            { brand: 'Phoenix', stations: 70, diesel: [91.67, -3.00], premiumDiesel: null, unleaded91: [92.23, 1.50], egas: [108.54, 1.50], premium95: [93.35, 1.50], premium97: [100.58, 1.50], kerosene: null },
-            { brand: 'Seaoil', stations: 71, diesel: [90.84, -3.01], premiumDiesel: [96.63, -3.01], unleaded91: [92.56, 1.54], egas: [120.31, 1.56], premium95: [94.86, 1.56], premium97: [96.71, 1.56], kerosene: [133.78, 1.77] },
+            { brand: 'Shell', stations: 3, diesel: [92.45, -3.00], premiumDiesel: [98.05, -2.97], unleaded91: [94.05, 1.50], egas: null, premium95: [100.35, 1.53], premium97: [103.05, 1.55], kerosene: [131.90, 1.70] },
+            { brand: 'Petron', stations: 2, diesel: [91.73, -2.97], premiumDiesel: [95.07, -3.04], unleaded91: [92.63, 1.53], egas: null, premium95: [93.63, 1.46], premium97: [101.85, 1.48], kerosene: [128.63, 1.73] },
+            { brand: 'Phoenix', stations: 2, diesel: [91.68, -3.04], premiumDiesel: null, unleaded91: [92.28, 1.46], egas: [108.55, 1.48], premium95: [93.38, 1.55], premium97: [100.60, 1.56], kerosene: null },
+            { brand: 'Seaoil', stations: 3, diesel: [90.85, -2.95], premiumDiesel: [96.60, -3.02], unleaded91: [92.55, 1.55], egas: [120.30, 1.56], premium95: [94.85, 1.48], premium97: [96.70, 1.50], kerosene: [133.75, 1.75] },
+            { brand: 'Fusion', stations: 1, diesel: [90.65, -3.02], premiumDiesel: null, unleaded91: [91.85, 1.48], egas: null, premium95: [93.05, 1.56], premium97: null, kerosene: null },
+            { brand: 'Jetti', stations: 1, diesel: [90.70, -2.94], premiumDiesel: null, unleaded91: [91.90, 1.56], egas: null, premium95: [93.10, 1.50], premium97: null, kerosene: null },
+            { brand: 'Flying V', stations: 2, diesel: [90.57, -3.00], premiumDiesel: null, unleaded91: [91.78, 1.50], egas: null, premium95: [92.98, 1.53], premium97: null, kerosene: [127.93, 1.70] },
+            { brand: 'Petro Gazz', stations: 1, diesel: [90.50, -2.97], premiumDiesel: null, unleaded91: [91.70, 1.53], egas: null, premium95: [92.90, 1.46], premium97: null, kerosene: [128.20, 1.73] },
+            { brand: 'My Gas', stations: 3, diesel: [90.40, -3.04], premiumDiesel: null, unleaded91: [91.60, 1.46], egas: null, premium95: [92.80, 1.55], premium97: null, kerosene: null },
+            { brand: 'Star', stations: 1, diesel: [90.35, -2.95], premiumDiesel: null, unleaded91: [91.50, 1.55], egas: null, premium95: [92.70, 1.48], premium97: null, kerosene: null },
+            { brand: 'Damke', stations: 2, diesel: [90.23, -3.02], premiumDiesel: null, unleaded91: [91.43, 1.48], egas: null, premium95: [92.63, 1.56], premium97: null, kerosene: null },
+            { brand: 'Zep Oil', stations: 1, diesel: [90.10, -2.94], premiumDiesel: null, unleaded91: [91.30, 1.56], egas: null, premium95: [92.50, 1.50], premium97: null, kerosene: null },
+            { brand: 'Omnah Gas', stations: 1, diesel: [90.05, -3.00], premiumDiesel: null, unleaded91: [91.25, 1.50], egas: null, premium95: [92.45, 1.53], premium97: null, kerosene: null },
+            { brand: 'YKG', stations: 1, diesel: [90.00, -2.97], premiumDiesel: null, unleaded91: [91.20, 1.53], egas: null, premium95: [92.40, 1.46], premium97: null, kerosene: null },
+            { brand: 'RM Petrol', stations: 1, diesel: [89.95, -3.04], premiumDiesel: null, unleaded91: [91.10, 1.46], egas: null, premium95: [92.30, 1.55], premium97: null, kerosene: null },
+            { brand: 'Gas Station', stations: 1, diesel: [89.90, -2.95], premiumDiesel: null, unleaded91: [91.00, 1.55], egas: null, premium95: null, premium97: null, kerosene: null },
+            { brand: 'Botrol Fuels', stations: 1, diesel: [89.80, -3.02], premiumDiesel: null, unleaded91: [90.95, 1.48], egas: null, premium95: [92.15, 1.56], premium97: null, kerosene: null },
         ];
 
         const STATION_FUELS = [
@@ -140,15 +171,18 @@
         const minOf = (values) => Math.min(...values.filter((v) => v !== null));
         const byPrice = (a, b) => (a === null) - (b === null) || a - b;
 
-        function renderFuelStations() {
+        // Cheapest first for the chosen fuel; stations that don't sell it go last
+        function renderFuelStations(sortKey = 'diesel') {
             const box = document.getElementById('fw-stations');
             if (!box) return;
+            box.replaceChildren();
+            if (box.parentElement) box.parentElement.scrollTop = 0;
             const lowest = {};
             STATION_FUELS.forEach(({ key }) => { lowest[key] = minOf(FUEL_STATIONS.map((s) => s[key])); });
 
-            [...FUEL_STATIONS].sort((a, b) => byPrice(a.diesel, b.diesel)).forEach((s) => {
-                const card = el('article', `fw-station fw-brand--${s.brand.toLowerCase()}`);
-                card.append(el('h4', 'fw-station-name', s.brand), el('p', 'fw-station-place', `${s.place}, Mati City`));
+            [...FUEL_STATIONS].sort((a, b) => byPrice(a[sortKey], b[sortKey])).forEach((s) => {
+                const card = el('article', `fw-station fw-brand--${s.brand.toLowerCase().replace(/\s+/g, '-')}`);
+                card.append(el('h4', 'fw-station-name', s.brand), el('p', 'fw-station-place', s.place));
                 const grid = el('div', 'fw-station-prices');
                 STATION_FUELS.forEach(({ key, label, pre }) => {
                     const cell = el('div', `fw-price fw-fuel--${key}`);
@@ -209,7 +243,9 @@
             if (keepFocus) table.querySelector('th.is-active .fw-sort').focus();
         }
 
-        renderFuelStations();
+        const stationSort = document.getElementById('fw-station-sort');
+        renderFuelStations(stationSort ? stationSort.value : 'diesel');
+        if (stationSort) stationSort.addEventListener('change', () => renderFuelStations(stationSort.value));
         renderFuelTable();
 
         // Nearest Gasoline Station map (Leaflet + OpenStreetMap).

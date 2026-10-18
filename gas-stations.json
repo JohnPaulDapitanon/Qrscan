@@ -2,171 +2,164 @@
   {
     "name": "Damke",
     "lat": 6.96395,
-    "lon": 126.26024
+    "lon": 126.26024,
+    "address": "Bilawan 2, City of Mati"
   },
   {
     "name": "Petron",
     "lat": 6.961711,
     "lon": 126.206078,
-    "address": "Rizal Extension, Mati City"
+    "address": "Madang, City of Mati"
   },
   {
     "name": "Shell",
     "lat": 6.960112,
-    "lon": 126.204806
+    "lon": 126.204806,
+    "address": "Madang, City of Mati"
   },
   {
     "name": "My Gas",
     "lat": 6.958447,
     "lon": 126.206324,
-    "address": "Doña Rosa Street"
+    "address": "Madang, City of Mati"
   },
   {
     "name": "Phoenix",
     "lat": 6.95831,
-    "lon": 126.202282
+    "lon": 126.202282,
+    "address": "Surigao - Davao Coastal Road, City of Mati"
   },
   {
     "name": "Seaoil",
     "lat": 6.958187,
     "lon": 126.202683,
     "brand": "SEAOIL",
-    "address": "Surigao - Davao Coastal Road"
+    "address": "Surigao - Davao Coastal Road, City of Mati"
   },
   {
-    "name": "Gas station",
+    "name": "Fusion",
     "lat": 6.953353,
     "lon": 126.217513,
-    "address": "Rizal Street"
+    "address": "Rizal Street, City of Mati"
   },
   {
     "name": "Damke",
     "lat": 6.951699,
-    "lon": 126.195792
+    "lon": 126.195792,
+    "address": "Mati-Maragusan Road"
   },
   {
     "name": "Petron",
     "lat": 6.95136,
     "lon": 126.219122,
-    "address": "Rizal Street"
+    "address": "Poblacion, City of Mati"
   },
   {
     "name": "Shell",
     "lat": 6.951229,
     "lon": 126.218541,
-    "address": "Rizal Street"
+    "address": "Poblacion, City of Mati"
   },
   {
     "name": "Star",
     "lat": 6.950139,
-    "lon": 126.19404
+    "lon": 126.19404,
+    "address": "Tagawisan, City of Mati"
+  },
+  {
+    "name": "Flying V",
+    "lat": 6.949112,
+    "lon": 126.193539,
+    "address": "Tagawisan, City of Mati"
   },
   {
     "name": "Seaoil",
     "lat": 6.947197,
     "lon": 126.256613,
-    "address": "President Diosdado P. Macapagal Highway, Mati City"
+    "address": "President Diosdado P. Macapagal Highway, City of Mati"
   },
   {
     "name": "Jetti",
     "lat": 6.946499,
     "lon": 126.255994,
-    "address": "President Diosdado P. Macapagal Highway"
+    "address": "President Diosdado P. Macapagal Highway, City of Mati"
   },
   {
     "name": "Flying V",
     "lat": 6.946005,
     "lon": 126.255325,
-    "address": "Dahican Rotunda, Mati City"
+    "address": "Dahican Rotunda, City of Mati"
   },
   {
     "name": "Zep Oil",
     "lat": 6.945996,
     "lon": 126.254741,
-    "address": "Dahican Rotunda, Mati City"
+    "address": "Dahican Rotunda, City of Mati"
   },
   {
     "name": "My Gas",
     "lat": 6.944783,
     "lon": 126.239637,
-    "address": "President Diosdado P. Macapagal Highway, Mati City"
+    "address": "President Diosdado P. Macapagal Highway, City of Mati"
   },
   {
     "name": "Phoenix",
     "lat": 6.944782,
     "lon": 126.252997,
-    "address": "President Diosdado P. Macapagal Highway, Mati"
+    "address": "President Diosdado P. Macapagal Highway, City of Mati"
   },
   {
     "name": "Shell",
     "lat": 6.944647,
     "lon": 126.237189,
-    "address": "President Diosdado P. Macapagal Highway"
+    "address": "President Diosdado P. Macapagal Highway, City of Mati"
   },
   {
     "name": "Seaoil",
     "lat": 6.944,
     "lon": 126.245934,
-    "address": "President Diosdado P. Macapagal Highway"
+    "address": "President Diosdado P. Macapagal Highway, City of Mati"
   },
   {
     "name": "YKG",
     "lat": 6.943864,
     "lon": 126.241358,
-    "address": "President Diosdado P. Macapagal Highway, Mati"
+    "address": "President Diosdado P. Macapagal Highway, City of Mati"
   },
   {
     "name": "Gas station",
     "lat": 6.943592,
-    "lon": 126.249324
+    "lon": 126.249324,
+    "address": "President Diosdado P. Macapagal Highway, City of Mati"
   },
   {
     "name": "RM Petrol",
     "lat": 6.943567,
     "lon": 126.246599,
-    "address": "President Diosdado P. Macapagal Highway, Mati City"
+    "address": "President Diosdado P. Macapagal Highway, City of Mati"
   },
   {
     "name": "My Gas",
     "lat": 6.936253,
-    "lon": 126.271642
+    "lon": 126.271642,
+    "address": "President Diosdado P. Macapagal Highway, City of Mati"
   },
   {
     "name": "Petro Gazz",
     "lat": 6.935792,
-    "lon": 126.265993
+    "lon": 126.265993,
+    "address": "Dahican-Lawigan Road, City of Mati"
   },
   {
     "name": "Omnah Gas",
     "lat": 6.918345,
-    "lon": 126.275492
+    "lon": 126.275492,
+    "address": "Dahican-Lawigan Road, City of Mati"
   },
   {
-    "name": "Gas station",
+    "name": "Botrol Fuels",
     "lat": 6.900781,
-    "lon": 126.151269
-  },
-  {
-    "name": "Star Gasoline",
-    "lat": 6.887831,
-    "lon": 126.080259
-  },
-  {
-    "name": "Flying V",
-    "lat": 6.882804,
-    "lon": 126.087256,
-    "address": "President Diosdado P. Macapagal Highway, San Isidro"
-  },
-  {
-    "name": "Super Gas",
-    "lat": 6.833722,
-    "lon": 126.088205,
-    "address": "San Isidro"
-  },
-  {
-    "name": "Caltex",
-    "lat": 6.832693,
-    "lon": 126.088106,
-    "address": "San Isidro"
+    "lon": 126.151269,
+    "address": "Dawan, City of Mati"
   }
 ]
