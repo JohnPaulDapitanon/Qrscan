@@ -330,10 +330,8 @@
         </div>
     </div>
     <div class="qi-modal-body qi-modal-body-map">
-        <iframe class="qi-map-frame" title="Gas stations in the City of Mati" loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-            data-src="https://maps.google.com/maps?q=gas+station+City+of+Mati+Davao+Oriental&output=embed"></iframe>
-        <a href="https://www.google.com/maps/search/gas+station+City+of+Mati+Davao+Oriental" class="btn btn-blue qi-map-btn"
-            id="btn-nearest-gas" target="_blank" rel="noopener">Use my location in Google Maps</a>
+        <div class="qi-map" id="gas-map" role="region" aria-label="Map of gas stations in the City of Mati"></div>
+        <p class="qi-map-status" id="gas-map-status" role="status"></p>
+        <button type="button" class="btn btn-blue qi-map-btn" id="btn-nearest-gas">Find the nearest station to me</button>
     </div>
 </div>

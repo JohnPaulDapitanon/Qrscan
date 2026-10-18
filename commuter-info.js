@@ -34,10 +34,10 @@
         function openQuickInfoModal(modalId, trigger) {
             const modal = document.getElementById(modalId);
             if (!modal) return;
-            const frame = modal.querySelector('iframe[data-src]');
-            if (frame && !frame.src) frame.src = frame.dataset.src;
             activeModalTrigger = trigger || null;
             modal.hidden = false;
+            // Leaflet needs a visible container to measure, so set the map up after showing the popup
+            if (modal.querySelector('#gas-map')) initGasMap();
             document.body.classList.add('qi-modal-open');
             modal.querySelector('.qi-modal-close').focus();
             // Give the popup its own history entry so the phone's Back button closes it
@@ -210,37 +210,111 @@
         renderFuelStations();
         renderFuelTable();
 
-        // Nearest Gasoline Station: search near the user's location, fall back to City of Mati
+        // Nearest Gasoline Station map (Leaflet + OpenStreetMap).
+        // Station list comes from OpenStreetMap; edit gas-stations.json to update it.
+        const MATI_CENTER = [6.9525, 126.2200];
+        let gasMap = null;
+        let gasStations = [];
+        let userMarker = null;
+
+        function setGasStatus(text) {
+            const status = document.getElementById('gas-map-status');
+            if (status) status.textContent = text;
+        }
+
+        function stationPopup(s, distanceM) {
+            const box = el('div', 'qi-map-popup');
+            box.append(el('strong', '', s.brand ? `${s.name} (${s.brand})` : s.name));
+            if (s.address) box.append(el('span', '', s.address));
+            if (distanceM !== undefined) box.append(el('div', '', `${formatDistance(distanceM)} from you`));
+            return box;
+        }
+
+        const formatDistance = (m) => (m < 1000 ? `${Math.round(m)} m` : `${(m / 1000).toFixed(1)} km`);
+
+        function initGasMap() {
+            const box = document.getElementById('gas-map');
+            if (!box) return;
+            if (gasMap) { gasMap.invalidateSize(); return; }
+            if (!window.L) { setGasStatus('The map could not load. Check your connection and try again.'); return; }
+
+            gasMap = L.map(box).setView(MATI_CENTER, 14);
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            }).addTo(gasMap);
+
+            setGasStatus('Loading gas stations…');
+            fetch('gas-stations.json')
+                .then((res) => { if (!res.ok) throw new Error(res.status); return res.json(); })
+                .then((list) => {
+                    // Red map pin with a blue fuel pump; the pin's tip sits on the station
+                    const gasIcon = L.divIcon({
+                        className: 'qi-gas-pin',
+                        iconSize: [32, 40],
+                        iconAnchor: [16, 40],
+                        popupAnchor: [0, -36],
+                        html: `<svg viewBox="0 0 40 50" width="32" height="40" aria-hidden="true">
+                            <path d="M20 49C20 49 3 32 3 19a17 17 0 1 1 34 0c0 13-17 30-17 30z" fill="#D10000"/>
+                            <circle cx="20" cy="19" r="12" fill="#FFFFFF"/>
+                            <rect x="12.5" y="11" width="9" height="13.5" rx="1.6" fill="#2F6BFF"/>
+                            <rect x="14.3" y="13" width="5.4" height="4" rx="0.6" fill="#FFFFFF"/>
+                            <rect x="11" y="24" width="12" height="2.2" rx="1" fill="#2F6BFF"/>
+                            <path d="M21.5 15.5h2.2v6.3a1.4 1.4 0 0 0 2.8 0v-7.6l-2.4-2.8" fill="none" stroke="#2F6BFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                            <rect x="25.2" y="12.6" width="2.6" height="3.8" rx="0.8" fill="#2F6BFF"/>
+                        </svg>`,
+                    });
+                    gasStations = list.map((s) => {
+                        const marker = L.marker([s.lat, s.lon], { icon: gasIcon, title: s.name })
+                            .bindPopup(() => stationPopup(s)).addTo(gasMap);
+                        return { ...s, marker };
+                    });
+                    setGasStatus(`${gasStations.length} gas stations in and around the City of Mati`);
+                })
+                .catch((err) => {
+                    console.error('Could not load gas-stations.json', err);
+                    setGasStatus('Gas stations could not load. Please try again later.');
+                });
+        }
+
         const nearestGasBtn = document.getElementById('btn-nearest-gas');
-        if (nearestGasBtn && navigator.geolocation) {
-            // Ask for location on this page (so the permission prompt stays visible), then open Maps here;
-            // a tab opened after an async wait would be blocked as a pop-up.
+        if (nearestGasBtn) {
             const label = nearestGasBtn.textContent;
-            let locating = false;
-            nearestGasBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                if (locating) return;
-                locating = true;
+            nearestGasBtn.addEventListener('click', () => {
+                if (!gasMap) return;
+                if (!navigator.geolocation) { setGasStatus("This browser can't share your location."); return; }
+                nearestGasBtn.disabled = true;
                 nearestGasBtn.textContent = 'Finding your location…';
-                const fallbackUrl = nearestGasBtn.href;
-                let done = false;
-                const go = (url) => {
-                    if (done) return;
-                    done = true;
-                    clearTimeout(guard);
-                    locating = false;
-                    nearestGasBtn.textContent = label;
-                    window.location.href = url;
-                };
-                // The geolocation timeout doesn't count time spent on the permission prompt
-                const guard = setTimeout(() => go(fallbackUrl), 15000);
+                const done = () => { nearestGasBtn.disabled = false; nearestGasBtn.textContent = label; };
+
                 navigator.geolocation.getCurrentPosition(
                     (pos) => {
-                        const { latitude, longitude } = pos.coords;
-                        go(`https://www.google.com/maps/search/gas+station/@${latitude},${longitude},15z`);
+                        done();
+                        const here = L.latLng(pos.coords.latitude, pos.coords.longitude);
+                        if (userMarker) userMarker.remove();
+                        userMarker = L.circleMarker(here, {
+                            radius: 9, color: '#FFFFFF', weight: 3, fillColor: '#000EB5', fillOpacity: 1,
+                        }).bindPopup('You are here').addTo(gasMap);
+
+                        let nearest = null;
+                        let nearestM = Infinity;
+                        gasStations.forEach((s) => {
+                            const m = here.distanceTo([s.lat, s.lon]);
+                            if (m < nearestM) { nearest = s; nearestM = m; }
+                        });
+                        if (!nearest) { gasMap.setView(here, 15); setGasStatus('Showing your location.'); return; }
+
+                        gasMap.fitBounds(L.latLngBounds([here, [nearest.lat, nearest.lon]]), { padding: [48, 48], maxZoom: 17 });
+                        nearest.marker.setPopupContent(stationPopup(nearest, nearestM)).openPopup();
+                        setGasStatus(`Nearest: ${nearest.name}, ${formatDistance(nearestM)} away`);
                     },
-                    () => go(fallbackUrl),
-                    { timeout: 8000, maximumAge: 300000 }
+                    (err) => {
+                        done();
+                        setGasStatus(err.code === err.PERMISSION_DENIED
+                            ? 'Location access was blocked. Allow it in your browser settings to find the nearest station.'
+                            : "Couldn't get your location. Please try again.");
+                    },
+                    { enableHighAccuracy: true, timeout: 10000, maximumAge: 300000 }
                 );
             });
         }

@@ -12,6 +12,11 @@
         rel="stylesheet">
     <!-- QR Code Scanning Library -->
     <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <!-- Leaflet (gas station map) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
     <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="commuter-info.css">
@@ -449,8 +454,8 @@
                             Contact & Credentials
                         </h4>
 
-                        <a href="https://maps.google.com/?q=Brgy.+Central,+City+of+Mati+Davao+Oriental"
-                            class="contact-item" id="prof-address-link" target="_blank">
+                        <a href="https://www.openstreetmap.org/search?query=Brgy.+Central,+City+of+Mati+Davao+Oriental"
+                            class="contact-item" id="prof-address-link" target="_blank" rel="noopener">
                             <div class="contact-icon" style="background: #EEF2FF; color: #4F46E5;">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1118,7 +1123,7 @@
             if (addressEl) addressEl.textContent = addressText;
             const addressLink = document.getElementById('prof-address-link');
             if (addressLink) {
-                addressLink.href = `https://maps.google.com/?q=${encodeURIComponent(addressText)}`;
+                addressLink.href = `https://www.openstreetmap.org/search?query=${encodeURIComponent(addressText)}`;
             }
 
             const phoneText = p.contact || '0909-359-2607';
