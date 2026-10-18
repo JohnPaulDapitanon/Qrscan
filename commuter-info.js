@@ -213,18 +213,34 @@
         // Nearest Gasoline Station: search near the user's location, fall back to City of Mati
         const nearestGasBtn = document.getElementById('btn-nearest-gas');
         if (nearestGasBtn && navigator.geolocation) {
+            // Ask for location on this page (so the permission prompt stays visible), then open Maps here;
+            // a tab opened after an async wait would be blocked as a pop-up.
+            const label = nearestGasBtn.textContent;
+            let locating = false;
             nearestGasBtn.addEventListener('click', (e) => {
                 e.preventDefault();
+                if (locating) return;
+                locating = true;
+                nearestGasBtn.textContent = 'Finding your location…';
                 const fallbackUrl = nearestGasBtn.href;
-                const mapsTab = window.open('', '_blank');
-                if (!mapsTab) { window.location.href = fallbackUrl; return; }
+                let done = false;
+                const go = (url) => {
+                    if (done) return;
+                    done = true;
+                    clearTimeout(guard);
+                    locating = false;
+                    nearestGasBtn.textContent = label;
+                    window.location.href = url;
+                };
+                // The geolocation timeout doesn't count time spent on the permission prompt
+                const guard = setTimeout(() => go(fallbackUrl), 15000);
                 navigator.geolocation.getCurrentPosition(
                     (pos) => {
                         const { latitude, longitude } = pos.coords;
-                        mapsTab.location.href = `https://www.google.com/maps/search/gas+station/@${latitude},${longitude},15z`;
+                        go(`https://www.google.com/maps/search/gas+station/@${latitude},${longitude},15z`);
                     },
-                    () => { mapsTab.location.href = fallbackUrl; },
-                    { timeout: 8000 }
+                    () => go(fallbackUrl),
+                    { timeout: 8000, maximumAge: 300000 }
                 );
             });
         }
