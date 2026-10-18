@@ -49,6 +49,8 @@
         function closeQuickInfoModal() {
             const modal = document.querySelector('.qi-modal:not([hidden])');
             if (!modal) return;
+            // Don't keep GPS running for directions nobody can see
+            if (modal.querySelector('#gas-map') && watchId !== null) stopDirections();
             modal.hidden = true;
             document.body.classList.remove('qi-modal-open');
             const card = document.querySelector('[data-ci-card]');
@@ -243,6 +245,8 @@
                 maxZoom: 19,
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
             }).addTo(gasMap);
+            gasMap.attributionControl.addAttribution(
+                'Routing &copy; <a href="https://project-osrm.org/">OSRM</a> / <a href="https://routing.openstreetmap.de/">FOSSGIS</a>');
 
             setGasStatus('Loading gas stations…');
             fetch('gas-stations.json')
@@ -277,44 +281,197 @@
                 });
         }
 
+        // Directions to the nearest station: a road route from the free OSRM service on OpenStreetMap
+        // roads (routing.openstreetmap.de), followed with GPS. The part already traveled is erased.
+        const ROUTE_SERVERS = [
+            'https://routing.openstreetmap.de/routed-car/route/v1/driving/',
+            'https://router.project-osrm.org/route/v1/driving/', // backup if the first can't be reached
+        ];
+        const OFF_ROUTE_M = 50;          // farther than this from the path = take a new route
+        const ARRIVED_M = 30;            // this close to the station = arrived
+        const REROUTE_GAP_MS = 10000;    // space out route requests to the free service
         const nearestGasBtn = document.getElementById('btn-nearest-gas');
+        const gasBtnLabel = nearestGasBtn ? nearestGasBtn.textContent : '';
+        let watchId = null;
+        let target = null;               // station being navigated to
+        let route = null;                // { points, line, casing, index, total, duration }
+        let routing = false;             // a route request is in flight
+        let lastRouteAt = 0;
+
+        const formatMinutes = (s) => `about ${Math.max(1, Math.round(s / 60))} min`;
+        const pathLength = (pts) => pts.reduce((sum, p, i) => (i ? sum + pts[i - 1].distanceTo(p) : 0), 0);
+
+        function showUser(here) {
+            if (userMarker) { userMarker.setLatLng(here); return; }
+            userMarker = L.circleMarker(here, {
+                radius: 9, color: '#FFFFFF', weight: 3, fillColor: '#000EB5', fillOpacity: 1,
+            }).bindPopup('You are here').addTo(gasMap);
+        }
+
+        function clearRoute() {
+            if (!route) return;
+            route.casing.remove();
+            route.line.remove();
+            route = null;
+        }
+
+        function drawRoute(points, duration) {
+            clearRoute();
+            const style = { lineCap: 'round', lineJoin: 'round', interactive: false };
+            const casing = L.polyline(points, { ...style, color: '#FFFFFF', weight: 10, opacity: 0.9 }).addTo(gasMap);
+            const line = L.polyline(points, { ...style, color: '#000EB5', weight: 6 }).addTo(gasMap);
+            route = { points, casing, line, index: 0, total: pathLength(points), duration };
+            if (userMarker) userMarker.bringToFront();
+        }
+
+        // Closest point to p on segment a-b (flat approximation, fine at street scale)
+        function projectOnSegment(p, a, b) {
+            const k = Math.cos(p.lat * Math.PI / 180);
+            const dx = (b.lng - a.lng) * k;
+            const dy = b.lat - a.lat;
+            const len2 = dx * dx + dy * dy;
+            const t = len2 ? Math.max(0, Math.min(1, ((p.lng - a.lng) * k * dx + (p.lat - a.lat) * dy) / len2)) : 0;
+            return L.latLng(a.lat + t * (b.lat - a.lat), a.lng + t * (b.lng - a.lng));
+        }
+
+        // Cut the route at the user's position and update the status.
+        // Returns how far the user is from the path and how much of it is left.
+        function updateProgress(here) {
+            const pts = route.points;
+            let best = { d: Infinity, i: route.index, at: pts[route.index] };
+            // Only look ahead of the last match, so the path never grows back behind the user
+            for (let i = route.index; i < pts.length - 1 && i < route.index + 60; i++) {
+                const at = projectOnSegment(here, pts[i], pts[i + 1]);
+                const d = here.distanceTo(at);
+                if (d < best.d) best = { d, i, at };
+            }
+            route.index = best.i;
+            const rest = [best.at, ...pts.slice(best.i + 1)];
+            route.line.setLatLngs(rest);
+            route.casing.setLatLngs(rest);
+            const remaining = pathLength(rest);
+            const seconds = route.total ? route.duration * (remaining / route.total) : 0;
+            setGasStatus(`${target.name} · ${formatDistance(remaining)} · ${formatMinutes(seconds)} by vehicle`);
+            return { offBy: best.d, remaining };
+        }
+
+        function requestRoute(here, fit) {
+            const station = target;
+            routing = true;
+            lastRouteAt = Date.now();
+            const path = `${here.lng},${here.lat};${station.lon},${station.lat}?overview=full&geometries=geojson`;
+            const tryServer = (i) => fetch(ROUTE_SERVERS[i] + path)
+                .then((res) => { if (!res.ok) throw new Error(res.status); return res.json(); })
+                .then((data) => {
+                    if (data.code !== 'Ok' || !data.routes.length) throw new Error(data.code);
+                    return data.routes[0];
+                })
+                .catch((err) => {
+                    if (i + 1 < ROUTE_SERVERS.length) return tryServer(i + 1);
+                    throw err;
+                });
+            tryServer(0)
+                .then((r) => {
+                    if (target !== station) return; // directions were stopped meanwhile
+                    routing = false;
+                    drawRoute(r.geometry.coordinates.map(([lon, lat]) => L.latLng(lat, lon)), r.duration);
+                    station.marker.setPopupContent(stationPopup(station, route.total));
+                    if (fit) gasMap.fitBounds(route.line.getBounds().extend(here), { padding: [48, 48], maxZoom: 17 });
+                    updateProgress(userMarker ? userMarker.getLatLng() : here);
+                })
+                .catch((err) => {
+                    if (target !== station) return;
+                    routing = false;
+                    console.error('Route request failed', err);
+                    // Keep the old route if there is one; otherwise fall back to the straight-line distance
+                    if (!route) {
+                        const straight = formatDistance(here.distanceTo([station.lat, station.lon]));
+                        setGasStatus(`Nearest: ${station.name}, ${straight} away. Road directions unavailable right now.`);
+                    }
+                });
+        }
+
+        function stopDirections(message) {
+            if (watchId !== null) navigator.geolocation.clearWatch(watchId);
+            watchId = null;
+            target = null;
+            routing = false;
+            clearRoute();
+            if (nearestGasBtn) {
+                nearestGasBtn.disabled = false;
+                nearestGasBtn.textContent = gasBtnLabel;
+            }
+            setGasStatus(message || `${gasStations.length} gas stations in and around the City of Mati`);
+        }
+
+        function startDirections(here) {
+            let nearest = null;
+            let nearestM = Infinity;
+            gasStations.forEach((s) => {
+                const m = here.distanceTo([s.lat, s.lon]);
+                if (m < nearestM) { nearest = s; nearestM = m; }
+            });
+            if (!nearest) { gasMap.setView(here, 15); stopDirections('Showing your location.'); return; }
+            if (nearestM <= ARRIVED_M) { stopDirections(`You're already at ${nearest.name}.`); return; }
+
+            target = nearest;
+            nearestGasBtn.disabled = false;
+            nearestGasBtn.textContent = 'Stop directions';
+            gasMap.fitBounds(L.latLngBounds([here, [nearest.lat, nearest.lon]]), { padding: [48, 48], maxZoom: 17 });
+            setGasStatus(`Getting directions to ${nearest.name}…`);
+            requestRoute(here, true);
+        }
+
+        function onPosition(pos) {
+            if (!target) return;
+            const here = L.latLng(pos.coords.latitude, pos.coords.longitude);
+            showUser(here);
+            if (here.distanceTo([target.lat, target.lon]) <= ARRIVED_M) {
+                stopDirections(`You've arrived at ${target.name}.`);
+                return;
+            }
+            const canReroute = !routing && Date.now() - lastRouteAt >= REROUTE_GAP_MS;
+            if (!route) {
+                if (canReroute) requestRoute(here, false); // retry after a failed request
+                return;
+            }
+            const { offBy, remaining } = updateProgress(here);
+            // The route ends on the road nearest the station, which can be a little way from its pin
+            if (offBy <= OFF_ROUTE_M && remaining <= 15) {
+                stopDirections(`You've arrived at ${target.name}.`);
+                return;
+            }
+            if (offBy > OFF_ROUTE_M && canReroute) {
+                setGasStatus('Off the route. Finding a new one…');
+                requestRoute(here, false);
+            }
+        }
+
         if (nearestGasBtn) {
-            const label = nearestGasBtn.textContent;
             nearestGasBtn.addEventListener('click', () => {
                 if (!gasMap) return;
+                if (watchId !== null) { stopDirections('Directions stopped.'); return; }
                 if (!navigator.geolocation) { setGasStatus("This browser can't share your location."); return; }
                 nearestGasBtn.disabled = true;
                 nearestGasBtn.textContent = 'Finding your location…';
-                const done = () => { nearestGasBtn.disabled = false; nearestGasBtn.textContent = label; };
 
-                navigator.geolocation.getCurrentPosition(
+                let first = true;
+                watchId = navigator.geolocation.watchPosition(
                     (pos) => {
-                        done();
+                        if (!first) { onPosition(pos); return; }
+                        first = false;
                         const here = L.latLng(pos.coords.latitude, pos.coords.longitude);
-                        if (userMarker) userMarker.remove();
-                        userMarker = L.circleMarker(here, {
-                            radius: 9, color: '#FFFFFF', weight: 3, fillColor: '#000EB5', fillOpacity: 1,
-                        }).bindPopup('You are here').addTo(gasMap);
-
-                        let nearest = null;
-                        let nearestM = Infinity;
-                        gasStations.forEach((s) => {
-                            const m = here.distanceTo([s.lat, s.lon]);
-                            if (m < nearestM) { nearest = s; nearestM = m; }
-                        });
-                        if (!nearest) { gasMap.setView(here, 15); setGasStatus('Showing your location.'); return; }
-
-                        gasMap.fitBounds(L.latLngBounds([here, [nearest.lat, nearest.lon]]), { padding: [48, 48], maxZoom: 17 });
-                        nearest.marker.setPopupContent(stationPopup(nearest, nearestM)).openPopup();
-                        setGasStatus(`Nearest: ${nearest.name}, ${formatDistance(nearestM)} away`);
+                        showUser(here);
+                        startDirections(here);
                     },
                     (err) => {
-                        done();
-                        setGasStatus(err.code === err.PERMISSION_DENIED
+                        // Later GPS hiccups are ignored; tracking carries on with the next fix
+                        if (!first && err.code !== err.PERMISSION_DENIED) return;
+                        stopDirections(err.code === err.PERMISSION_DENIED
                             ? 'Location access was blocked. Allow it in your browser settings to find the nearest station.'
                             : "Couldn't get your location. Please try again.");
                     },
-                    { enableHighAccuracy: true, timeout: 10000, maximumAge: 300000 }
+                    { enableHighAccuracy: true, timeout: 15000, maximumAge: 5000 }
                 );
             });
         }
